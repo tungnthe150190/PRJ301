@@ -5,6 +5,8 @@
  */
 package model;
 
+import java.util.ArrayList;
+
 /**
  *
  * @author Tung
@@ -13,6 +15,15 @@ public class Building {
     private int buildID;
     private String name;
     private int numberOfFloors;
+    private ArrayList<Apartment> aparts=new ArrayList<>();
+
+    public ArrayList<Apartment> getAparts() {
+        return aparts;
+    }
+
+    public void setAparts(ArrayList<Apartment> aparts) {
+        this.aparts = aparts;
+    }
 
     public int getBuildID() {
         return buildID;
