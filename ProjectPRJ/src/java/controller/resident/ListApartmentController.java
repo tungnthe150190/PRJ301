@@ -3,24 +3,23 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package controller.authentication;
+package controller.resident;
 
-import dal.AccountDBContext;
+import dal.ApartmentDBContext;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import javax.servlet.ServletException;
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import model.Account;
+import model.Apartment;
 
 /**
  *
  * @author Tung
  */
-public class LoginController extends HttpServlet {
+public class ListApartmentController extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -31,7 +30,13 @@ public class LoginController extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-   
+    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        ApartmentDBContext db=new ApartmentDBContext();
+        ArrayList<Apartment> apartments = db.getAparts();
+        request.setAttribute("apartments", apartments);
+        request.getRequestDispatcher("../view/list/apartment.jsp").forward(request, response);
+    }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
@@ -45,7 +50,7 @@ public class LoginController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-       request.getRequestDispatcher("view/auth/login.jsp").forward(request, response);
+        processRequest(request, response);
     }
 
     /**
@@ -59,21 +64,7 @@ public class LoginController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-       String user = request.getParameter("user");
-        String pass = request.getParameter("pass");
-        AccountDBContext db = new AccountDBContext();
-        Account account = db.getAccount(user, pass);
-        if(account!=null) //login successful
-        {
-            request.getSession().setAttribute("account", account);
-            response.getWriter().println("Login successful!");
-            response.sendRedirect("view/menu/menu.jsp");
-        }
-        else
-        {
-            request.getSession().setAttribute("account", null);
-            response.getWriter().println("Login failed!");
-        }
+        processRequest(request, response);
     }
 
     /**

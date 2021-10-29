@@ -14,10 +14,19 @@ import java.sql.Date;
 public class Resident {
     private int ID;
     private Apartment apartment;
+    private Building building;
     private String fullName;
     private Date dob;
     private String homeTown;
     private int phone;
+
+    public Building getBuilding() {
+        return building;
+    }
+
+    public void setBuilding(Building building) {
+        this.building = building;
+    }
 
     public int getID() {
         return ID;
