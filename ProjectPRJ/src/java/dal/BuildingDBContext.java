@@ -18,23 +18,24 @@ import model.Building;
  * @author Tung
  */
 public class BuildingDBContext extends DBContext {
-    public ArrayList<Building> getBuildings(){
-        ArrayList<Building> buildings =new ArrayList<>();
+
+    public ArrayList<Building> getBuildings() {
+        ArrayList<Building> buildings = new ArrayList<>();
         try {
-            String sql="SELECT [BuildID]\n" +
-                    "      ,[Name]\n" +
-                    "      ,[NumberOfFloors]\n" +
-                    "  FROM [Building]";
-            PreparedStatement stm=connection.prepareStatement(sql);
+            String sql = "select b.BuildID,Name,NumberOfFloors,NumberOfPeoPle=sum(a.AmountPeople)\n"
+                    + "from Building b join Apartment a on a.BuildID=b.BuildID\n"
+                    + "group by  b.BuildID,Name,NumberOfFloors";
+            PreparedStatement stm = connection.prepareStatement(sql);
             ResultSet rs = stm.executeQuery();
-            while(rs.next()){
-                Building b=new Building();
+            while (rs.next()) {
+                Building b = new Building();
                 b.setBuildID(rs.getInt("BuildID"));
                 b.setName(rs.getString("Name"));
                 b.setNumberOfFloors(rs.getInt("NumberOfFloors"));
+                b.setNumberOfPeople(rs.getInt("NumberOfPeoPle"));
                 buildings.add(b);
             }
-            
+
         } catch (SQLException ex) {
             Logger.getLogger(BuildingDBContext.class.getName()).log(Level.SEVERE, null, ex);
         }

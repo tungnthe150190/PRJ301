@@ -32,8 +32,19 @@ public class ListApartmentController extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        String raw_page = request.getParameter("page");
+        if (raw_page == null || raw_page.length() == 0) {
+            raw_page = "1";
+        }
+        int page = Integer.parseInt(raw_page);
+        int pagesize = 20;
+        
         ApartmentDBContext db=new ApartmentDBContext();
-        ArrayList<Apartment> apartments = db.getAparts();
+        int count=db.getRowCount();
+       int totalpage = (count % pagesize == 0) ? count / pagesize : (count / pagesize) + 1;
+        ArrayList<Apartment> apartments = db.getAparts(pagesize, page);
+        request.setAttribute("totalpage", totalpage);
+        request.setAttribute("pageindex", page);
         request.setAttribute("apartments", apartments);
         request.getRequestDispatcher("../view/list/apartment.jsp").forward(request, response);
     }

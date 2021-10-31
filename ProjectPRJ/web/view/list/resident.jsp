@@ -11,8 +11,11 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>List Resident</title>
+        <script src="../js/pagger.js" type="text/javascript"></script>
+        <link href="../css/pagger.css" rel="stylesheet" type="text/css"/>
     </head>
     <body>
+        <div id="paggerTop" class="pagger"></div>
         <table border="1px">
             <tr>
                 <td>ID</td>
@@ -35,5 +38,10 @@
                 </tr>
             </c:forEach>
         </table>
+         <div id="paggerBottom" class="pagger"></div>
+        <script>
+            createPagger('paggerTop',${requestScope.pageindex},2,${requestScope.totalpage},"listresident");
+            createPagger('paggerBottom',${requestScope.pageindex},2,${requestScope.totalpage},"listresident");
+        </script>
     </body>
 </html>

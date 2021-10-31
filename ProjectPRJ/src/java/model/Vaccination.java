@@ -13,10 +13,37 @@ import java.sql.Date;
  */
 public class Vaccination {
     private int ID;
+    private Apartment apartment;
+    private Building building;
+     private Resident resident;
     private boolean firstInjection;
     private Date firstInjectionDate;
     private boolean secondInjection;
     private Date secondInjectionDate;
+
+    public Apartment getApartment() {
+        return apartment;
+    }
+
+    public void setApartment(Apartment apartment) {
+        this.apartment = apartment;
+    }
+
+    public Building getBuilding() {
+        return building;
+    }
+
+    public void setBuilding(Building building) {
+        this.building = building;
+    }
+
+    public Resident getResident() {
+        return resident;
+    }
+
+    public void setResident(Resident resident) {
+        this.resident = resident;
+    }
 
     public int getID() {
         return ID;

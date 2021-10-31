@@ -5,13 +5,61 @@
  */
 package model;
 
+import java.sql.Date;
+
 /**
  *
  * @author Tung
  */
 public class F1F2 {
     private int ID;
-    private String travelSchedule;
+    private Date quarantineStartDate;
+    private int numberOfDays;
+    private Resident resident;
+    private Building building;
+    private Apartment apartment;
+
+    public int getNumberOfDays() {
+        return numberOfDays;
+    }
+
+    public void setNumberOfDays(int numberOfDays) {
+        this.numberOfDays = numberOfDays;
+    }
+
+    public Date getQuarantineStartDate() {
+        return quarantineStartDate;
+    }
+
+    public void setQuarantineStartDate(Date quarantineStartDate) {
+        this.quarantineStartDate = quarantineStartDate;
+    }
+    
+
+    public Resident getResident() {
+        return resident;
+    }
+
+    public void setResident(Resident resident) {
+        this.resident = resident;
+    }
+
+    public Building getBuilding() {
+        return building;
+    }
+
+    public void setBuilding(Building building) {
+        this.building = building;
+    }
+
+    public Apartment getApartment() {
+        return apartment;
+    }
+
+    public void setApartment(Apartment apartment) {
+        this.apartment = apartment;
+    }
+    
 
     public int getID() {
         return ID;
@@ -21,12 +69,6 @@ public class F1F2 {
         this.ID = ID;
     }
 
-    public String getTravelSchedule() {
-        return travelSchedule;
-    }
-
-    public void setTravelSchedule(String travelSchedule) {
-        this.travelSchedule = travelSchedule;
-    }
+   
     
 }

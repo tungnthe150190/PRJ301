@@ -15,6 +15,15 @@ public class Building {
     private int buildID;
     private String name;
     private int numberOfFloors;
+    private int numberOfPeople;
+
+    public int getNumberOfPeople() {
+        return numberOfPeople;
+    }
+
+    public void setNumberOfPeople(int numberOfPeople) {
+        this.numberOfPeople = numberOfPeople;
+    }
     private ArrayList<Apartment> aparts=new ArrayList<>();
 
     public ArrayList<Apartment> getAparts() {

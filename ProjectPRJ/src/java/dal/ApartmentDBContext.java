@@ -19,15 +19,22 @@ import model.Building;
  * @author Tung
  */
 public class ApartmentDBContext extends DBContext {
-    public ArrayList<Apartment> getAparts(){
+    public ArrayList<Apartment> getAparts(int pagesize, int pageindex){
         ArrayList<Apartment> aparts=new ArrayList<>();
         try {           
             
             String sql="SELECT [ApartmentID]\n" +
-                    "      ,[BuildID]\n" +
-                    "      ,[AmountPeople]\n" +
-                    "  FROM [Apartment]";
+"                      ,[BuildID]\n" +
+"                      ,[AmountPeople]\n" +
+"                     FROM (select rownum=ROW_NUMBER() OVER (Order by [ApartmentID] ASC),\n" +
+"					 [ApartmentID]\n" +
+"                      ,[BuildID]\n" +
+"                      ,[AmountPeople] from Apartment) t where rownum >= (?-1)*?+1 and rownum <= ?*?";
             PreparedStatement stm=connection.prepareStatement(sql);
+            stm.setInt(1, pageindex);
+            stm.setInt(2, pagesize);
+            stm.setInt(3, pageindex);
+            stm.setInt(4, pagesize);
             ResultSet rs = stm.executeQuery();
             while(rs.next()){
                 Apartment a=new Apartment();
@@ -42,5 +49,18 @@ public class ApartmentDBContext extends DBContext {
             Logger.getLogger(ApartmentDBContext.class.getName()).log(Level.SEVERE, null, ex);
         }
         return aparts;
+    }
+    public int getRowCount() {
+        try {
+            String sql = "select count(*) as Total from Apartment";
+            PreparedStatement stm = connection.prepareStatement(sql);
+            ResultSet rs = stm.executeQuery();
+            if (rs.next()) {
+                return rs.getInt("Total");
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(ResidentDBContext.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return 0;
     }
 }

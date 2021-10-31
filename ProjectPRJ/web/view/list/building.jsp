@@ -18,12 +18,14 @@
                 <td>BuildID</td>
                 <td>Name</td>
                 <td>NumberOfFloors</td>
+                <td>NumberOfPeople</td>
             </tr>
             <c:forEach items="${requestScope.buildings}" var="b">
                 <tr>
                 <td>${b.buildID}</td>
                 <td>${b.name}</td>
                 <td>${b.numberOfFloors}</td>
+                <td>${b.numberOfPeople}</td>
             </tr>
             </c:forEach>
         </table>

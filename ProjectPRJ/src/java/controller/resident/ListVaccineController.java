@@ -5,7 +5,7 @@
  */
 package controller.resident;
 
-import dal.ResidentDBContext;
+import dal.VaccinationDBContext;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
@@ -13,13 +13,13 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import model.Resident;
+import model.Vaccination;
 
 /**
  *
  * @author Tung
  */
-public class ListResidentController extends HttpServlet {
+public class ListVaccineController extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -37,15 +37,16 @@ public class ListResidentController extends HttpServlet {
             raw_page = "1";
         }
         int page = Integer.parseInt(raw_page);
-        ResidentDBContext db=new ResidentDBContext();   
         int pagesize = 20;
-        ArrayList<Resident> residents = db.getResidents(pagesize, page);
+        VaccinationDBContext db=new VaccinationDBContext();
         int count=db.getRowCount();
        int totalpage = (count % pagesize == 0) ? count / pagesize : (count / pagesize) + 1;
+        ArrayList<Vaccination> listVaccine = db.listVaccine(pagesize, page);
         request.setAttribute("totalpage", totalpage);
         request.setAttribute("pageindex", page);
-        request.setAttribute("residents", residents);
-        request.getRequestDispatcher("../view/list/resident.jsp").forward(request, response);
+        request.setAttribute("listVaccine", listVaccine);
+        request.getRequestDispatcher("../view/list/vaccine.jsp").forward(request, response);
+        
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
