@@ -63,6 +63,7 @@ public class SearchResidentController extends HttpServlet {
             raw_phone = "-1";
         }
 
+
         if (raw_firstInjection == null || raw_firstInjection.length() == 0) {
             raw_firstInjection = "all";
         }

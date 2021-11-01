@@ -270,11 +270,11 @@ public class ResidentDBContext extends DBContext {
                 paramIndex++;
                 Object[] param = new Object[2];
                 param[0] = Integer.class.getTypeName();
-                param[1] = id;
+                param[1] = buildID;
                 params.put(paramIndex, param);
             }
-            if (apartmentID != "") {
-                sql += "AND a.[ApartmentID] =? ";
+            if (apartmentID != null) {
+                sql += "AND a.[ApartmentID] = ? ";
                 paramIndex++;
                 Object[] param = new Object[2];
                 param[0] = String.class.getTypeName();
@@ -287,7 +287,7 @@ public class ResidentDBContext extends DBContext {
                 paramIndex++;
                 Object[] param = new Object[2];
                 param[0] = String.class.getTypeName();
-                param[1] = apartmentID;
+                param[1] = fullName;
                 params.put(paramIndex, param);
             }
             if (from != null) {
@@ -311,7 +311,7 @@ public class ResidentDBContext extends DBContext {
                 paramIndex++;
                 Object[] param = new Object[2];
                 param[0] = String.class.getTypeName();
-                param[1] = apartmentID;
+                param[1] = homeTown;
                 params.put(paramIndex, param);
             }
             if (phone != -1) {
@@ -319,7 +319,7 @@ public class ResidentDBContext extends DBContext {
                 paramIndex++;
                 Object[] param = new Object[2];
                 param[0] = Integer.class.getTypeName();
-                param[1] = id;
+                param[1] = phone;
                 params.put(paramIndex, param);
             }
             if (firstInjection != null) {
