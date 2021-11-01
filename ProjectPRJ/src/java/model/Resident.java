@@ -12,6 +12,7 @@ import java.sql.Date;
  * @author Tung
  */
 public class Resident {
+
     private int ID;
     private Apartment apartment;
     private Building building;
@@ -19,6 +20,38 @@ public class Resident {
     private Date dob;
     private String homeTown;
     private int phone;
+    private Vaccination vaccine;
+    private F1F2 f1f2;
+
+    public Resident() {
+    }
+
+    public Resident(int ID, Apartment apartment, String fullName, Date dob, String homeTown, int phone, Vaccination vaccine) {
+        this.ID = ID;
+        this.apartment = apartment;
+        this.fullName = fullName;
+        this.dob = dob;
+        this.homeTown = homeTown;
+        this.phone = phone;
+        this.vaccine = vaccine;
+
+    }
+
+    public Vaccination getVaccine() {
+        return vaccine;
+    }
+
+    public void setVaccine(Vaccination vaccine) {
+        this.vaccine = vaccine;
+    }
+
+    public F1F2 getF1f2() {
+        return f1f2;
+    }
+
+    public void setF1f2(F1F2 f1f2) {
+        this.f1f2 = f1f2;
+    }
 
     public Building getBuilding() {
         return building;
@@ -75,5 +108,5 @@ public class Resident {
     public void setPhone(int phone) {
         this.phone = phone;
     }
-    
+
 }

@@ -21,6 +21,17 @@ public class Vaccination {
     private boolean secondInjection;
     private Date secondInjectionDate;
 
+    public Vaccination() {
+    }
+
+    public Vaccination(int ID,boolean firstInjection, Date firstInjectionDate, boolean secondInjection, Date secondInjectionDate) {
+        this.ID = ID;        
+        this.firstInjection = firstInjection;
+        this.firstInjectionDate = firstInjectionDate;
+        this.secondInjection = secondInjection;
+        this.secondInjectionDate = secondInjectionDate;
+    }
+
     public Apartment getApartment() {
         return apartment;
     }

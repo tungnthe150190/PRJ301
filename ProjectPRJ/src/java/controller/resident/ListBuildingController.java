@@ -34,6 +34,14 @@ public class ListBuildingController extends HttpServlet {
             throws ServletException, IOException {
         BuildingDBContext db=new BuildingDBContext();
         ArrayList<Building> buildings = db.getBuildings();
+        ArrayList<Building> buildingF1F2 = db.getBuildingsF1F2();
+        for (Building b1 : buildings) {
+            for (Building b2 : buildingF1F2) {
+                if(b1.getBuildID()==b2.getBuildID()){
+                    b1.setNumberOfF1F2(b2.getNumberOfF1F2());
+                }
+            }
+        }
         request.setAttribute("buildings", buildings);
         request.getRequestDispatcher("../view/list/building.jsp").forward(request, response);
                 

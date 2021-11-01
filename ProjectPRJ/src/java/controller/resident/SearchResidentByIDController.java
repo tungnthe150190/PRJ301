@@ -5,21 +5,20 @@
  */
 package controller.resident;
 
-import dal.F1F2DBContext;
+import dal.ResidentDBContext;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.ArrayList;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import model.F1F2;
+import model.Resident;
 
 /**
  *
  * @author Tung
  */
-public class ListF1F2Controller extends HttpServlet {
+public class SearchResidentByIDController extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -32,21 +31,12 @@ public class ListF1F2Controller extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String raw_page = request.getParameter("page");
-        if (raw_page == null || raw_page.length() == 0) {
-            raw_page = "1";
-        }
-        int page = Integer.parseInt(raw_page);
-        int pagesize = 20;
-        F1F2DBContext db=new F1F2DBContext();
-        int count=db.getRowCount();
-       int totalpage = (count % pagesize == 0) ? count / pagesize : (count / pagesize) + 1;
-        ArrayList<F1F2> listF1F2 = db.listF1F2WithPagging(pagesize, page);
-        request.setAttribute("totalpage", totalpage);
-        request.setAttribute("pageindex", page);
-        request.setAttribute("listF1F2", listF1F2);
-        request.getRequestDispatcher("../view/list/F1F2.jsp").forward(request, response);
-                
+        String id=request.getParameter("id");     
+        int ID=Integer.parseInt(id);
+        ResidentDBContext db= new ResidentDBContext();
+        Resident resident = db.getResidentbyID(ID);        
+        request.setAttribute("resident", resident);
+        request.getRequestDispatcher("../view/search/searchresidentbyID.jsp").forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

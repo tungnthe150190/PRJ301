@@ -19,7 +19,7 @@ import model.Building;
  * @author Tung
  */
 public class ApartmentDBContext extends DBContext {
-    public ArrayList<Apartment> getAparts(int pagesize, int pageindex){
+    public ArrayList<Apartment> getApartsWithPagging(int pagesize, int pageindex){
         ArrayList<Apartment> aparts=new ArrayList<>();
         try {           
             
@@ -62,5 +62,29 @@ public class ApartmentDBContext extends DBContext {
             Logger.getLogger(ResidentDBContext.class.getName()).log(Level.SEVERE, null, ex);
         }
         return 0;
+    }
+    public ArrayList<Apartment> getAparts(){
+        ArrayList<Apartment> aparts=new ArrayList<>();
+        try {           
+
+            String sql="SELECT [ApartmentID]\n" +
+                    "      ,[BuildID]\n" +
+                    "      ,[AmountPeople]\n" +
+                    "  FROM [Apartment]";
+            PreparedStatement stm=connection.prepareStatement(sql);
+            ResultSet rs = stm.executeQuery();
+            while(rs.next()){
+                Apartment a=new Apartment();
+                a.setApartmentID(rs.getString("ApartmentID"));
+                Building d =new Building();
+                d.setBuildID(rs.getInt("BuildID"));
+                a.setBuild(d);
+                a.setAmountPeople(rs.getInt("AmountPeople"));
+                aparts.add(a);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(ApartmentDBContext.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return aparts;
     }
 }

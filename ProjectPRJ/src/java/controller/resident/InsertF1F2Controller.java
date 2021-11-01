@@ -6,20 +6,23 @@
 package controller.resident;
 
 import dal.F1F2DBContext;
+import dal.ResidentDBContext;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.Date;
 import java.util.ArrayList;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import model.F1F2;
+import model.Resident;
 
 /**
  *
  * @author Tung
  */
-public class ListF1F2Controller extends HttpServlet {
+public class InsertF1F2Controller extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -30,25 +33,6 @@ public class ListF1F2Controller extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        String raw_page = request.getParameter("page");
-        if (raw_page == null || raw_page.length() == 0) {
-            raw_page = "1";
-        }
-        int page = Integer.parseInt(raw_page);
-        int pagesize = 20;
-        F1F2DBContext db=new F1F2DBContext();
-        int count=db.getRowCount();
-       int totalpage = (count % pagesize == 0) ? count / pagesize : (count / pagesize) + 1;
-        ArrayList<F1F2> listF1F2 = db.listF1F2WithPagging(pagesize, page);
-        request.setAttribute("totalpage", totalpage);
-        request.setAttribute("pageindex", page);
-        request.setAttribute("listF1F2", listF1F2);
-        request.getRequestDispatcher("../view/list/F1F2.jsp").forward(request, response);
-                
-    }
-
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
@@ -61,7 +45,13 @@ public class ListF1F2Controller extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        ResidentDBContext rdb = new ResidentDBContext();
+        F1F2DBContext fdb = new F1F2DBContext();
+        ArrayList<F1F2> listF1F2 = fdb.listF1F2();
+        ArrayList<Resident> residents = rdb.getResidents();
+        request.setAttribute("residents", residents);
+        request.setAttribute("listF1F2", listF1F2);
+        request.getRequestDispatcher("../view/insert/insertf1f2.jsp").forward(request, response);
     }
 
     /**
@@ -75,7 +65,43 @@ public class ListF1F2Controller extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        String ID = request.getParameter("ID");
+        request.setAttribute("ID", ID);
+        ResidentDBContext rdb = new ResidentDBContext();
+        F1F2DBContext fdb=new F1F2DBContext();
+        ArrayList<F1F2> listF1F2 = fdb.listF1F2();
+        ArrayList<Resident> residents = rdb.getResidents();
+        boolean isExists = false;
+        for (Resident r : residents) {
+            if (r.getID() == Integer.parseInt(ID)) {
+                isExists = true;
+            }
+        }
+        if (isExists == false) {
+            response.getWriter().println("Not Found Resident !");
+            return;
+        }
+        boolean isF1F2Exists=false;
+        for (F1F2 list : listF1F2) {
+            if(list.getID()== Integer.parseInt(ID)){
+                isF1F2Exists = true;
+            }
+        }
+        if(isF1F2Exists){
+            response.getWriter().println("F1/F2 is exsist !");
+            return;
+        }
+        String quarantineDate = request.getParameter("quarantineDate");   
+        F1F2 f=new F1F2();
+        if (quarantineDate.isEmpty()) {
+            response.getWriter().println("Please Input Quarantine Start Date !");
+            return;
+        } else{
+         f=new F1F2(Integer.parseInt(ID), Date.valueOf(quarantineDate));
+        }
+        
+        fdb.insertF1F2(f);
+        response.sendRedirect("listF1F2");
     }
 
     /**

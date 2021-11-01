@@ -39,7 +39,7 @@ public class ListResidentController extends HttpServlet {
         int page = Integer.parseInt(raw_page);
         ResidentDBContext db=new ResidentDBContext();   
         int pagesize = 20;
-        ArrayList<Resident> residents = db.getResidents(pagesize, page);
+        ArrayList<Resident> residents = db.getResidentsWithPagging(pagesize, page);
         int count=db.getRowCount();
        int totalpage = (count % pagesize == 0) ? count / pagesize : (count / pagesize) + 1;
         request.setAttribute("totalpage", totalpage);

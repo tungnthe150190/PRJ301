@@ -42,7 +42,7 @@ public class ListApartmentController extends HttpServlet {
         ApartmentDBContext db=new ApartmentDBContext();
         int count=db.getRowCount();
        int totalpage = (count % pagesize == 0) ? count / pagesize : (count / pagesize) + 1;
-        ArrayList<Apartment> apartments = db.getAparts(pagesize, page);
+        ArrayList<Apartment> apartments = db.getApartsWithPagging(pagesize, page);
         request.setAttribute("totalpage", totalpage);
         request.setAttribute("pageindex", page);
         request.setAttribute("apartments", apartments);

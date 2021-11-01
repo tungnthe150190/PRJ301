@@ -16,6 +16,16 @@ public class Building {
     private String name;
     private int numberOfFloors;
     private int numberOfPeople;
+    private int numberOfF1F2;
+
+    public int getNumberOfF1F2() {
+        return numberOfF1F2;
+    }
+
+    public void setNumberOfF1F2(int numberOfF1F2) {
+        this.numberOfF1F2 = numberOfF1F2;
+    }
+    
 
     public int getNumberOfPeople() {
         return numberOfPeople;

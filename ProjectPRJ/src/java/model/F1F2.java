@@ -19,6 +19,15 @@ public class F1F2 {
     private Building building;
     private Apartment apartment;
 
+    public F1F2() {
+    }
+
+    public F1F2(int ID, Date quarantineStartDate) {
+        this.ID = ID;
+        this.quarantineStartDate = quarantineStartDate;
+        
+    }
+
     public int getNumberOfDays() {
         return numberOfDays;
     }
