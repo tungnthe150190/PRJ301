@@ -13,6 +13,15 @@
         <title>List Resident</title>
         <script src="../js/pagger.js" type="text/javascript"></script>
         <link href="../css/pagger.css" rel="stylesheet" type="text/css"/>
+        <script>
+            function doUpdate(id)
+            {
+                
+                 window.location.href = "updateresident?id="+id;
+             
+            }
+           
+        </script>
     </head>
     <body>
         <div id="paggerTop" class="pagger"></div>
@@ -25,6 +34,7 @@
                 <td>DateOfBirth</td>
                 <td>HomeTown</td>
                 <td>Phone</td>
+                <td></td>
             </tr>
             <c:forEach items="${requestScope.residents}" var="r">
                 <tr>
@@ -35,6 +45,9 @@
                     <td>${r.dob}</td>
                     <td>${r.homeTown}</td>
                     <td>${r.phone}</td>
+                    <td>
+                        <input type="button" onclick="doUpdate(${r.ID});" value="Update"/>
+                </td>
                 </tr>
             </c:forEach>
         </table>

@@ -11,6 +11,7 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>JSP Page</title>
+        
     </head>
     <body>
         <form action="searchresident">
@@ -28,7 +29,7 @@
                 <option value="">All</option>
                 <c:forEach items="${requestScope.aparts}" var="a">
                     <option 
-                        ${requestScope.apartmentID eq a.apartmentID ?"selected=\"selected\"":""}
+                        ${requestScope.apartmentID eq a.apartmentID ?"selected=\"selected\"":"all"}
                         value="${a.apartmentID}">${a.apartmentID}</option>
                 </c:forEach> 
             </select>        
@@ -89,11 +90,12 @@
                     <td>${r.dob}</td>
                     <td>${r.homeTown}</td>
                     <td>${r.phone}</td>
-                    <td>${r.vaccination.firstInjection?"Yes":"No"}</td>                   
-                    <td>${r.vaccination.secondInjection?"Yes":"No"}</td>
+                    <td>${r.vaccine.firstInjection?"Yes":"No"}</td>                   
+                    <td>${r.vaccine.secondInjection?"Yes":"No"}</td>
  
                 </tr>
             </c:forEach>
         </table>
+                  
     </body>
 </html>

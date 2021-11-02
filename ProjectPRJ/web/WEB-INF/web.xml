@@ -41,12 +41,12 @@
         <servlet-class>controller.resident.InsertF1F2Controller</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>SearchResidentByIDController</servlet-name>
-        <servlet-class>controller.resident.SearchResidentByIDController</servlet-class>
-    </servlet>
-    <servlet>
         <servlet-name>SearchResidentController</servlet-name>
         <servlet-class>controller.resident.SearchResidentController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>UpdateResidentController</servlet-name>
+        <servlet-class>controller.resident.UpdateResidentController</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>LoginController</servlet-name>
@@ -81,12 +81,12 @@
         <url-pattern>/resident/insertf1f2</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>SearchResidentByIDController</servlet-name>
-        <url-pattern>/resident/searchresidentbyID</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
         <servlet-name>SearchResidentController</servlet-name>
         <url-pattern>/resident/searchresident</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>UpdateResidentController</servlet-name>
+        <url-pattern>/resident/updateresident</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

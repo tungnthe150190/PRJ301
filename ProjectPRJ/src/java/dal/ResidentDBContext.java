@@ -195,18 +195,23 @@ public class ResidentDBContext extends DBContext {
 
     public Resident getResidentbyID(int ID) {
         try {
-            String sql = "SELECT [ID]\n"
-                    + "      ,a.[ApartmentID]\n"
-                    + "	  ,b.BuildID\n"
-                    + "	  ,b.Name\n"
-                    + "      ,[FullName]\n"
-                    + "      ,[DateOfBirth]\n"
-                    + "      ,[HomeTown]\n"
-                    + "      ,[Phone]\n"
-                    + "  FROM [Resident] r\n"
-                    + "  inner join Apartment a on r.ApartmentID=a.ApartmentID\n"
-                    + "  inner join Building b on a.BuildID=b.BuildID\n"
-                    + "where [ID]=?";
+            String sql = "SELECT r.[ID]\n"
+                    + ",a.[ApartmentID]\n"
+                    + ",b.BuildID\n"
+                    + " ,b.Name\n"
+                    + ",[FullName]\n"
+                    + ",[DateOfBirth]\n"
+                    + ",[HomeTown]\n"
+                    + ",[Phone]\n"
+                    + ",[1 injection]\n"
+                    + ",[1injectionDate]\n"
+                    + ",[2 injection]\n"
+                    + ",[2injectionDate]\n"
+                    + "FROM [Resident] r\n"
+                    + " inner join Apartment a on r.ApartmentID=a.ApartmentID\n"
+                    + " inner join Building b on a.BuildID=b.BuildID\n"
+                    + " inner join Vaccination v on v.ID=r.ID\n"
+                    + " where r.[ID] = ?";
             PreparedStatement stm = connection.prepareStatement(sql);
             stm.setInt(1, ID);
             ResultSet rs = stm.executeQuery();
@@ -225,6 +230,12 @@ public class ResidentDBContext extends DBContext {
                 r.setDob(rs.getDate("DateOfBirth"));
                 r.setHomeTown(rs.getString("HomeTown"));
                 r.setPhone(rs.getInt("Phone"));
+                Vaccination v=new Vaccination();
+                v.setFirstInjection(rs.getBoolean("1 injection"));
+                v.setFirstInjectionDate(rs.getDate("1injectionDate"));
+                v.setSecondInjection(rs.getBoolean("2 injection"));
+                v.setSecondInjectionDate(rs.getDate("2injectionDate"));
+                r.setVaccine(v);
                 return r;
             }
 
@@ -238,22 +249,23 @@ public class ResidentDBContext extends DBContext {
         ArrayList<Resident> residents = new ArrayList<>();
         try {
 
-            String sql = "SELECT r.[ID]                        \n"
-                    + "                   	  ,b.BuildID\n"
-                    + "                    	  ,Name\n"
-                    + "						  ,a.ApartmentID\n"
-                    + "                    	  ,FullName\n"
-                    + "                      ,DateOfBirth\n"
-                    + "                      ,Phone\n"
-                    + "                          ,[1 injection]                          \n"
-                    + "                          ,[2 injection]                         \n"
-                    + "                      FROM [Resident] r\n"
-                    + "                     inner join [Vaccination] v on r.ID=v.ID\n"
-                    + "                      inner join Apartment a on a.ApartmentID=r.ApartmentID\n"
-                    + "                     inner join Building b on b.BuildID=a.BuildID\n"
+            String sql = "SELECT r.[ID]\n"
+                    + ",b.BuildID\n"
+                    + ",Name\n"
+                    + ",a.ApartmentID\n"
+                    + ",FullName\n"
+                    + ",DateOfBirth\n"
+                    + ",HomeTown\n"
+                    + ",Phone\n"
+                    + ",[1 injection]\n"
+                    + ",[2 injection]\n"
+                    + "FROM [Resident] r\n"
+                    + "inner join [Vaccination] v on r.ID=v.ID\n"
+                    + "inner join Apartment a on a.ApartmentID=r.ApartmentID\n"
+                    + "inner join Building b on b.BuildID=a.BuildID\n"
                     + "WHERE\n"
                     + "(1=1)\n";
-            
+
             HashMap<Integer, Object[]> params = new HashMap<>();
             int paramIndex = 0;
 
@@ -273,7 +285,7 @@ public class ResidentDBContext extends DBContext {
                 param[1] = buildID;
                 params.put(paramIndex, param);
             }
-            if (apartmentID != null) {
+            if (!apartmentID.equals("")) {
                 sql += "AND a.[ApartmentID] = ? ";
                 paramIndex++;
                 Object[] param = new Object[2];
@@ -307,7 +319,7 @@ public class ResidentDBContext extends DBContext {
                 params.put(paramIndex, param);
             }
             if (homeTown != null) {
-                sql += "AND [HomeTown] like '%' + ? + '%' ";
+                sql += "AND HomeTown like '%' + ? + '%' ";
                 paramIndex++;
                 Object[] param = new Object[2];
                 param[0] = String.class.getTypeName();
@@ -358,14 +370,13 @@ public class ResidentDBContext extends DBContext {
             while (rs.next()) {
                 Resident r = new Resident();
                 r.setID(rs.getInt("ID"));
+                Apartment a = new Apartment();
+                a.setApartmentID(rs.getString("ApartmentID"));
+                r.setApartment(a);
                 Building b = new Building();
                 b.setBuildID(rs.getInt("BuildID"));
                 b.setName(rs.getString("Name"));
                 r.setBuilding(b);
-                Apartment a = new Apartment();
-                a.setApartmentID(rs.getString("ApartmentID"));
-                r.setApartment(a);
-
                 r.setFullName(rs.getString("FullName"));
                 r.setDob(rs.getDate("DateOfBirth"));
                 r.setHomeTown(rs.getString("HomeTown"));
@@ -381,5 +392,70 @@ public class ResidentDBContext extends DBContext {
         }
 
         return residents;
+    }
+
+    public void update(Resident resident) {
+        try {
+            connection.setAutoCommit(false);
+            String sql = "UPDATE [Resident]\n"
+                    + "   SET [ApartmentID] = ?\n"
+                    + "      ,[FullName] = ?\n"
+                    + "      ,[DateOfBirth] = ?\n"
+                    + "      ,[HomeTown] = ?\n"
+                    + "      ,[Phone] = ?\n"
+                    + " WHERE ID=?";
+
+            PreparedStatement stm = connection.prepareStatement(sql);
+            stm.setString(1, resident.getApartment().getApartmentID());
+            stm.setString(2, resident.getFullName());
+            stm.setDate(3, resident.getDob());
+            stm.setString(4, resident.getHomeTown());
+            stm.setInt(5, resident.getPhone());
+            stm.setInt(6, resident.getID());
+            stm.executeUpdate();
+
+            //delete Vaccination
+            String sql_delete_vaccine = "delete from Vaccination where ID=?";
+            PreparedStatement stm_delete_vaccine = connection.prepareStatement(sql_delete_vaccine);
+            stm_delete_vaccine.setInt(1, resident.getID());
+            stm_delete_vaccine.executeUpdate();
+
+            //insert vaccination
+            String sql_add_vaccine = "INSERT INTO [Vaccination]\n"
+                    + "           ([ID]\n"
+                    + "           ,[1 injection]\n"
+                    + "           ,[1injectionDate]\n"
+                    + "           ,[2 injection]\n"
+                    + "           ,[2injectionDate])\n"
+                    + "     VALUES\n"
+                    + "           (?\n"
+                    + "           ,?\n"
+                    + "           ,?\n"
+                    + "           ,?\n"
+                    + "           ,?)";
+            PreparedStatement stm_add_vaccine = connection.prepareStatement(sql_add_vaccine);
+            stm_add_vaccine.setInt(1, resident.getID());
+            stm_add_vaccine.setBoolean(2, resident.getVaccine().isFirstInjection());
+            stm_add_vaccine.setDate(3, resident.getVaccine().getFirstInjectionDate());
+            stm_add_vaccine.setBoolean(4, resident.getVaccine().isSecondInjection());
+            stm_add_vaccine.setDate(5, resident.getVaccine().getSecondInjectionDate());
+            stm_add_vaccine.executeUpdate();
+
+            connection.commit();
+
+        } catch (SQLException ex) {
+            Logger.getLogger(ResidentDBContext.class.getName()).log(Level.SEVERE, null, ex);
+            try {
+                connection.rollback();
+            } catch (SQLException ex1) {
+                Logger.getLogger(ResidentDBContext.class.getName()).log(Level.SEVERE, null, ex1);
+            }
+        } finally {
+            try {
+                connection.setAutoCommit(true);
+            } catch (SQLException ex) {
+                Logger.getLogger(ResidentDBContext.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
     }
 }

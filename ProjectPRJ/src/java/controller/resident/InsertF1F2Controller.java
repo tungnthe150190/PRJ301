@@ -67,13 +67,20 @@ public class InsertF1F2Controller extends HttpServlet {
             throws ServletException, IOException {
         String ID = request.getParameter("ID");
         request.setAttribute("ID", ID);
+        int residentID;
+        try {
+            residentID = Integer.parseInt(ID);
+        } catch (NumberFormatException e) {
+            response.getWriter().println("ID invalid !");
+            return;
+        }
         ResidentDBContext rdb = new ResidentDBContext();
-        F1F2DBContext fdb=new F1F2DBContext();
+        F1F2DBContext fdb = new F1F2DBContext();
         ArrayList<F1F2> listF1F2 = fdb.listF1F2();
         ArrayList<Resident> residents = rdb.getResidents();
         boolean isExists = false;
         for (Resident r : residents) {
-            if (r.getID() == Integer.parseInt(ID)) {
+            if (r.getID() == residentID) {
                 isExists = true;
             }
         }
@@ -81,25 +88,25 @@ public class InsertF1F2Controller extends HttpServlet {
             response.getWriter().println("Not Found Resident !");
             return;
         }
-        boolean isF1F2Exists=false;
+        boolean isF1F2Exists = false;
         for (F1F2 list : listF1F2) {
-            if(list.getID()== Integer.parseInt(ID)){
+            if (list.getID() == residentID) {
                 isF1F2Exists = true;
             }
         }
-        if(isF1F2Exists){
+        if (isF1F2Exists) {
             response.getWriter().println("F1/F2 is exsist !");
             return;
         }
-        String quarantineDate = request.getParameter("quarantineDate");   
-        F1F2 f=new F1F2();
+        String quarantineDate = request.getParameter("quarantineDate");
+        F1F2 f = new F1F2();
         if (quarantineDate.isEmpty()) {
             response.getWriter().println("Please Input Quarantine Start Date !");
             return;
-        } else{
-         f=new F1F2(Integer.parseInt(ID), Date.valueOf(quarantineDate));
+        } else {
+            f = new F1F2(residentID, Date.valueOf(quarantineDate));
         }
-        
+
         fdb.insertF1F2(f);
         response.sendRedirect("listF1F2");
     }

@@ -6,7 +6,9 @@
 package controller.resident;
 
 import dal.ApartmentDBContext;
+import dal.BuildingDBContext;
 import dal.ResidentDBContext;
+import dal.VaccinationDBContext;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Date;
@@ -16,6 +18,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import model.Apartment;
+import model.Building;
 import model.Resident;
 import model.Vaccination;
 
@@ -23,7 +26,7 @@ import model.Vaccination;
  *
  * @author Tung
  */
-public class InsertResidentController extends HttpServlet {
+public class UpdateResidentController extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -34,6 +37,8 @@ public class InsertResidentController extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
+    
+
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
@@ -46,10 +51,28 @@ public class InsertResidentController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        ApartmentDBContext db = new ApartmentDBContext();
-        ArrayList<Apartment> aparts = db.getAparts();
+        ApartmentDBContext adb = new ApartmentDBContext();
+        ArrayList<Apartment> aparts = adb.getAparts();
         request.setAttribute("aparts", aparts);
-        request.getRequestDispatcher("../view/insert/insertresident.jsp").forward(request, response);
+        BuildingDBContext bdb=new BuildingDBContext();
+        ArrayList<Building> buildings = bdb.getBuildings();
+        request.setAttribute("buildings", buildings);
+       
+        String id = request.getParameter("id");
+        int residentID ;
+        try {
+            residentID = Integer.parseInt(id);
+        } catch (NumberFormatException e) {
+            response.getWriter().println("ID invalid !");
+            return;
+        }
+        ResidentDBContext rdb=new ResidentDBContext();
+        Resident resident = rdb.getResidentbyID(residentID);
+        request.setAttribute("resident", resident);
+        
+        request.getRequestDispatcher("../view/list/updateresident.jsp").forward(request, response);
+        
+        
     }
 
     /**
@@ -63,7 +86,8 @@ public class InsertResidentController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        ResidentDBContext db = new ResidentDBContext();
+        ResidentDBContext rdb=new ResidentDBContext();
+        Resident r=new Resident();
         String id = request.getParameter("id");
         int residentID ;
         try {
@@ -72,19 +96,29 @@ public class InsertResidentController extends HttpServlet {
             response.getWriter().println("ID invalid !");
             return;
         }
-
+//        for (Resident resident : rdb.getResidents()) {
+//            if (residentID == resident.getID()) {
+//                response.getWriter().println("ID exists !");
+//                return;
+//            }
+//        }
+        r.setID(residentID);
         String apartmentID = request.getParameter("apartmentID");
         Apartment a = new Apartment();
         a.setApartmentID(apartmentID);
+        r.setApartment(a);
         String fullName = request.getParameter("fullName");
         String dob = request.getParameter("dob");
         String homeTown = request.getParameter("homeTown");
-        String phone = request.getParameter("phone");
-        if (dob.isEmpty() || homeTown.isEmpty() || fullName.isEmpty()) {
+        
+        if (dob.isEmpty() || homeTown.isEmpty() || fullName.isEmpty() ) {
             response.getWriter().println("You must input all the information !");
             return;
         }
-        
+        r.setFullName(fullName);
+        r.setDob(Date.valueOf(dob));
+        r.setHomeTown(homeTown);
+        String phone = request.getParameter("phone");
         int phonenumber;
         try {
             phonenumber = Integer.parseInt(phone);
@@ -92,18 +126,16 @@ public class InsertResidentController extends HttpServlet {
             response.getWriter().println("Phone number invalid !");
             return;
         }
-
-        for (Resident r : db.getResidents()) {
-            if (residentID == r.getID()) {
-                response.getWriter().println("ID exists !");
-                return;
-            }
-        }
-
+        r.setPhone(phonenumber);
+        
         String firstInjection = request.getParameter("firstInjection");
         String firstInjectionDate = request.getParameter("1stDate");
         String secondInjection = request.getParameter("secondInjection");
         String secondInjectionDate = request.getParameter("2ndDate");
+        if(firstInjection.isEmpty() || secondInjection.isEmpty()){
+            response.getWriter().println("You must input vaccinated infomation !");
+            return;
+        }
         Vaccination v = new Vaccination();
         if (firstInjection.equals("Yes") && !secondInjection.equals("Yes")) {
             if (firstInjectionDate.isEmpty() || !secondInjectionDate.isEmpty()) {
@@ -127,11 +159,11 @@ public class InsertResidentController extends HttpServlet {
                 v = new Vaccination(residentID, true, Date.valueOf(firstInjectionDate), true, Date.valueOf(secondInjectionDate));
             }
         }
-
-        Resident r = new Resident(residentID, a, fullName, Date.valueOf(dob), homeTown, phonenumber, v);
-
-        db.insertResident(r);
+        r.setVaccine(v);
+        rdb.update(r);
         response.sendRedirect("listresident");
+        
+       
     }
 
     /**

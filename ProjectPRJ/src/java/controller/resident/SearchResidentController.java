@@ -62,7 +62,9 @@ public class SearchResidentController extends HttpServlet {
         if (raw_phone == null || raw_phone.length() == 0) {
             raw_phone = "-1";
         }
-
+        if (raw_apartmentID == null || raw_apartmentID.length() == 0) {
+            raw_apartmentID = "";
+        }
 
         if (raw_firstInjection == null || raw_firstInjection.length() == 0) {
             raw_firstInjection = "all";
@@ -70,16 +72,29 @@ public class SearchResidentController extends HttpServlet {
         if (raw_secondInjection == null || raw_secondInjection.length() == 0) {
             raw_secondInjection = "all";
         }
-        int id = Integer.parseInt(raw_id);
-        int phone = Integer.parseInt(raw_phone);
-        int buildID = Integer.parseInt(raw_buildID);
+        int id;
+        int phone;
+        int buildID;
+        try {
+            id = Integer.parseInt(raw_id);
+            phone = Integer.parseInt(raw_phone);
+            buildID = Integer.parseInt(raw_buildID);
+        } catch (NumberFormatException e) {
+            response.getWriter().println("Not found resident !");
+            return;
+        }
+
         Date from = (raw_from != null && raw_from.length() > 0) ? Date.valueOf(raw_from) : null;
         Date to = (raw_to != null && raw_to.length() > 0) ? Date.valueOf(raw_to) : null;
         Boolean firstInjection = (!raw_firstInjection.equals("all")) ? raw_firstInjection.equals("Yes") : null;
         Boolean secondInjection = (!raw_secondInjection.equals("all")) ? raw_secondInjection.equals("Yes") : null;
 
         ResidentDBContext rdb = new ResidentDBContext();
-        ArrayList<Resident> residents=rdb.search(id, buildID, raw_apartmentID, raw_name, from, to, raw_homeTown, phone, firstInjection, secondInjection);
+        ArrayList<Resident> residents = rdb.search(id, buildID, raw_apartmentID, raw_name, from, to, raw_homeTown, phone, firstInjection, secondInjection);
+        if (residents.isEmpty()) {
+            response.getWriter().println("Not found resident !");
+            return;
+        }
 
         request.setAttribute("residents", residents);
         request.setAttribute("aparts", aparts);
