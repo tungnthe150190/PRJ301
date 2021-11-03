@@ -11,20 +11,37 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Menu</title>
-        <link href="../../css/styplemenu.css" rel="stylesheet" type="text/css"/>
+        <link href="../../css/menustyle.css" rel="stylesheet" type="text/css"/>
+        <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Ek+Mukta">
     </head>
-    <body>
-        <div class="container">
-            Welcome <h2>${requestScope.account.displayname}</h2>
+    <body>        
+        <div class="wrapper">
             <h1>WEBSITE FOR POPULATION MANAGEMENT</h1>
-            <img src="../../img/247551-maintainratio-w750-h1060-of-1-FFFFFF-ministry-health-poster_final.jpg" alt="5k"/></br>
-            <a href="../../resident/listbuilding"><button>List Building</button></a></br>
-            <a href="../../resident/listapartment"><button>List Apartment</button></a></br>
-            <a href="../../resident/listresident"><button>List Resident</button></a></br>
-            <a href="../../resident/listvaccine"><button>List Vaccinated</button></a></br>
-            <a href="../../resident/listF1F2"><button>List F1,F2</button></a></br>
+            <h4>Welcome, ${sessionScope.account.displayname}</h4>
+            <nav class="menu">
+                <ul class="clearfix">
+                    <li><a href="menu.jsp">Trang chủ</a></li>
+                    <li>
+                        <a>Infomation <span class="arrow"></span></a>
 
+                        <ul class="sub-menu">
+                            <li><a href="../../resident/listbuilding">List Building</a></li>
+                            <li><a href="../../resident/listapartment">List Apartment</a></li>
+                            <li><a href="../../resident/listresident">List Resident</a></li>
+                            <li><a href="../../resident/listvaccine">List Vaccinated</a></li>
+                            <li><a href="../../resident/listF1F2">List Vaccinated</a></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a>Insert<span class="arrow"></span></a>
+                        <ul class="sub-menu">
+                            <li><a href="../../resident/insertresident">Insert Resident</a></li>
+                            <li><a href="../../resident/insertf1f2">List Apartment</a></li>                   
+                        </ul>
+                    </li>                  
+                    <li><a href="#">Liên hệ</a></li>
+                </ul>
+            </nav>
         </div>
-
     </body>
 </html>

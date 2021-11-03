@@ -107,13 +107,12 @@ public class LoginFilter implements Filter {
         
         doBeforeProcessing(request, response);
         
-//        HttpServletRequest req=(HttpServletRequest) request;
-//        HttpServletResponse res= (HttpServletResponse) response;
-//        Account account=(Account) req.getSession().getAttribute("account");
-//        if(account == null){
-//            res.sendRedirect(req.getContextPath()+"/login");
-//        } dang test tat tam
-        
+        HttpServletRequest req=(HttpServletRequest) request;
+        HttpServletResponse res= (HttpServletResponse) response;
+        Account account=(Account) req.getSession().getAttribute("account");
+        if(account == null){
+            res.sendRedirect(req.getContextPath()+"/login");
+        } 
         Throwable problem = null;
         try {
             chain.doFilter(request, response);

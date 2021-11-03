@@ -4,11 +4,21 @@ To change this template file, choose Tools | Templates
 and open the template in the editor.
 */
 /* 
-    Created on : Oct 29, 2021, 9:04:26 PM
+    Created on : Nov 3, 2021, 10:06:50 PM
     Author     : Tung
 */
 
-.container img{
-    width: 20%;
-    height: 20%;
+table{
+    margin-left: auto;
+    margin-right: auto;
+}
+
+table input{
+    height: 30px;
+    width: 500px;
+}
+
+#submit{
+    width: 100px;
+    text-align: center;
 }

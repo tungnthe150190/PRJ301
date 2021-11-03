@@ -54,7 +54,7 @@
                     <td>${list.secondInjection?"Yes":"No"}</td>
                     <td>${list.secondInjectionDate}</td>
                     <td>
-                        <input type="button" onclick="doUpdate(${r.ID});" value="Update"/>
+                        <input type="button" onclick="doUpdate(${list.ID});" value="Update"/>
                 </td>
                 </tr>
             </c:forEach>

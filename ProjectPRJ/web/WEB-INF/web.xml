@@ -60,6 +60,10 @@
         <servlet-name>DeleteF1F2Controller</servlet-name>
         <servlet-class>controller.resident.DeleteF1F2Controller</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>CreateAccountController</servlet-name>
+        <servlet-class>controller.authentication.CreateAccountController</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>LoginController</servlet-name>
         <url-pattern>/login</url-pattern>
@@ -111,6 +115,10 @@
     <servlet-mapping>
         <servlet-name>DeleteF1F2Controller</servlet-name>
         <url-pattern>/resident/deletef1f2</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>CreateAccountController</servlet-name>
+        <url-pattern>/createaccount</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

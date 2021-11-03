@@ -14,18 +14,22 @@
         <script src="../js/pagger.js" type="text/javascript"></script>
         <link href="../css/pagger.css" rel="stylesheet" type="text/css"/>
         <script>
-            function doUpdate(id)
-            {
-                
-                 window.location.href = "updatef1f2?id="+id;
-             
+            function doUpdate(id) {
+                window.location.href = "updatef1f2?id=" + id;
             }
-           
+            function doDelete(id)
+            {
+                var c = confirm("Are you sure?");
+                if (c)
+                {
+                    window.location.href = "deletef1f2?id=" + id;
+                }
+            }
         </script>
     </head>
     <body>
         <h1>F1F2 Management</h1>
-         <div id="paggerTop" class="pagger"></div>
+        <div id="paggerTop" class="pagger"></div>
         <table border="1px">
             <tr>
                 <td>ID</td>
@@ -38,8 +42,7 @@
                 <td>QuarantineStartDate</td> 
                 <td>NumberOfDaysQuarantine</td>
                 <td></td>
-
-
+                <td></td>
             </tr>
             <c:forEach items="${requestScope.listF1F2}" var="list">
                 <tr>
@@ -53,13 +56,16 @@
                     <td>${list.quarantineStartDate}</td>
                     <td>${list.numberOfDays}</td>
                     <td> <input type="button" onclick="doUpdate(${list.ID});" value="Update"/></td>
+                    <td>
+                    <input type="button" onclick="doDelete(${list.ID});" value="Delete"/>
+                </td>
                 </tr>
             </c:forEach>
         </table>
-         <div id="paggerBottom" class="pagger"></div>
+        <div id="paggerBottom" class="pagger"></div>
         <script>
-            createPagger('paggerTop',${requestScope.pageindex},2,${requestScope.totalpage},"listF1F2");
-            createPagger('paggerBottom',${requestScope.pageindex},2,${requestScope.totalpage},"listF1F2");
+            createPagger('paggerTop',${requestScope.pageindex}, 2,${requestScope.totalpage}, "listF1F2");
+            createPagger('paggerBottom',${requestScope.pageindex}, 2,${requestScope.totalpage}, "listF1F2");
         </script>
     </body>
 </html>

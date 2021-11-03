@@ -14,11 +14,16 @@
         <script src="../js/pagger.js" type="text/javascript"></script>
         <link href="../css/pagger.css" rel="stylesheet" type="text/css"/>
         <script>
-            function doUpdate(id)
+            function doUpdate(id){                
+                 window.location.href = "updateresident?id="+id;             
+            }
+            function doDelete(id)
             {
-                
-                 window.location.href = "updateresident?id="+id;
-             
+                var c = confirm("Are you sure?");
+                if(c)
+                {
+                    window.location.href = "deleteresident?id="+id;
+                }
             }
            
         </script>
@@ -35,6 +40,7 @@
                 <td>HomeTown</td>
                 <td>Phone</td>
                 <td></td>
+                <td></td>
             </tr>
             <c:forEach items="${requestScope.residents}" var="r">
                 <tr>
@@ -47,6 +53,9 @@
                     <td>${r.phone}</td>
                     <td>
                         <input type="button" onclick="doUpdate(${r.ID});" value="Update"/>
+                </td>
+                 <td>
+                    <input type="button" onclick="doDelete(${r.ID});" value="Delete"/>
                 </td>
                 </tr>
             </c:forEach>

@@ -10,31 +10,31 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Login Page</title>
-        <link href="css/stylelogin.css" rel="stylesheet" type="text/css"/>
+        <link href="css/loginstyle.css" rel="stylesheet" type="text/css"/>
     </head>
-    <body>
+    <body>       
+         <main>
+        <div class="container">
+            <div class="login-form">
         <form action="login" method="POST"> 
-            <table>
-                <tr>
-                    <td>Username</td>
-                    <td>
-                        <input type="text" name="user" placeholder="Enter username">
-                    </td>
-                </tr>
-                <tr>
-                    <td>Password</td>
-                    <td>
-                        <input type="password" name="pass" placeholder="Enter password">
-                    </td>
-                </tr>
-                <tr>
-                    <td></td>
-                    <td>
-                        <input id="submit" type="submit" value="Login" />
-                    </td>
-                </tr>
-
-            </table>
+            <h1>Login</h1>
+            <div class="input-box">
+                        <i ></i>
+                        <input type="text" name="user" placeholder="username">
+                    </div>
+                    <div class="input-box">
+                        <i ></i>
+                        <input type="password" name="pass" placeholder="password">
+                    </div>
+           
+                    <div class="btn-box">
+                        <button type="submit">
+                            Login
+                        </button>
+                    </div>
         </form>
+                </div>
+            </div>
+               </main>     
     </body>
 </html>
