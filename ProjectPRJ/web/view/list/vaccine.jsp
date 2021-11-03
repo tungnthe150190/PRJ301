@@ -13,6 +13,15 @@
         <title>Vaccination</title>
         <script src="../js/pagger.js" type="text/javascript"></script>
         <link href="../css/pagger.css" rel="stylesheet" type="text/css"/>
+        <script>
+            function doUpdate(id)
+            {
+                
+                 window.location.href = "updateresident?id="+id;
+             
+            }
+           
+        </script>
     </head>
     <body>
         <h1>List of residents who have been vaccinated</h1>
@@ -29,14 +38,14 @@
                 <td>1st Date</td>
                 <td>2nd Injection</td> 
                 <td>2nd Date</td>
-
+                <td></td>
 
             </tr>
             <c:forEach items="${requestScope.listVaccine}" var="list">
                 <tr>
                     <td>${list.ID}</td>
-                    <td>${list.apartment.apartmentID}</td>
-                    <td>${list.building.name}</td>
+                    <td>${list.resident.apartment.apartmentID}</td>
+                    <td>${list.resident.building.name}</td>
                     <td>${list.resident.fullName}</td>
                     <td>${list.resident.dob}</td>
                     <td>${list.resident.phone}</td>
@@ -44,13 +53,16 @@
                     <td>${list.firstInjectionDate}</td>
                     <td>${list.secondInjection?"Yes":"No"}</td>
                     <td>${list.secondInjectionDate}</td>
+                    <td>
+                        <input type="button" onclick="doUpdate(${r.ID});" value="Update"/>
+                </td>
                 </tr>
             </c:forEach>
         </table>
         <div id="paggerBottom" class="pagger"></div>
         <script>
-            createPagger('paggerTop',${requestScope.pageindex},2,${requestScope.totalpage},"listvaccine");
-            createPagger('paggerBottom',${requestScope.pageindex},2,${requestScope.totalpage},"listvaccine");
+            createPagger('paggerTop',${requestScope.pageindex}, 2,${requestScope.totalpage}, "listvaccine");
+            createPagger('paggerBottom',${requestScope.pageindex}, 2,${requestScope.totalpage}, "listvaccine");
         </script>
     </body>
 </html>

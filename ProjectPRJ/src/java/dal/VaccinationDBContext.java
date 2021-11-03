@@ -61,16 +61,16 @@ public class VaccinationDBContext extends DBContext {
             ResultSet rs = stm.executeQuery();
             while (rs.next()) {
                 Vaccination v = new Vaccination();
-                v.setID(rs.getInt("ID"));
-                Apartment a = new Apartment();
+                v.setID(rs.getInt("ID"));              
+                Resident r = new Resident();
+                r.setID(rs.getInt("ID"));
+                 Apartment a = new Apartment();
                 a.setApartmentID(rs.getString("ApartmentID"));
-                v.setApartment(a);
+                r.setApartment(a);
                 Building b = new Building();
                 b.setBuildID(rs.getInt("BuildID"));
                 b.setName(rs.getString("Name"));
-                v.setBuilding(b);
-                Resident r = new Resident();
-                r.setID(rs.getInt("ID"));
+                r.setBuilding(b);
                 r.setFullName(rs.getString("FullName"));
                 r.setDob(rs.getDate("DateOfBirth"));
                 r.setPhone(rs.getInt("Phone"));

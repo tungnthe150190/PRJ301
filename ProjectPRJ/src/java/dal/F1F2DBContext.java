@@ -45,16 +45,16 @@ public class F1F2DBContext extends DBContext {
             ResultSet rs = stm.executeQuery();
             while (rs.next()) {
                 F1F2 f = new F1F2();
-                f.setID(rs.getInt("ID"));
+                f.setID(rs.getInt("ID"));              
+                Resident r = new Resident();
+                r.setID(rs.getInt("ID"));
                 Apartment a = new Apartment();
                 a.setApartmentID(rs.getString("ApartmentID"));
-                f.setApartment(a);
+                r.setApartment(a);
                 Building b = new Building();
                 b.setBuildID(rs.getInt("BuildID"));
                 b.setName(rs.getString("Name"));
-                f.setBuilding(b);
-                Resident r = new Resident();
-                r.setID(rs.getInt("ID"));
+                r.setBuilding(b);
                 r.setFullName(rs.getString("FullName"));
                 r.setDob(rs.getDate("DateOfBirth"));
                 r.setHomeTown(rs.getString("HomeTown"));
@@ -98,16 +98,16 @@ public class F1F2DBContext extends DBContext {
             ResultSet rs = stm.executeQuery();
             while (rs.next()) {
                 F1F2 f = new F1F2();
-                f.setID(rs.getInt("ID"));
+                f.setID(rs.getInt("ID"));              
+                Resident r = new Resident();
+                r.setID(rs.getInt("ID"));
                 Apartment a = new Apartment();
                 a.setApartmentID(rs.getString("ApartmentID"));
-                f.setApartment(a);
+                r.setApartment(a);
                 Building b = new Building();
                 b.setBuildID(rs.getInt("BuildID"));
                 b.setName(rs.getString("Name"));
-                f.setBuilding(b);
-                Resident r = new Resident();
-                r.setID(rs.getInt("ID"));
+                r.setBuilding(b);
                 r.setFullName(rs.getString("FullName"));
                 r.setDob(rs.getDate("DateOfBirth"));
                 r.setHomeTown(rs.getString("HomeTown"));
@@ -135,6 +135,70 @@ public class F1F2DBContext extends DBContext {
             stm.setInt(1, f1f2.getID());
             stm.setDate(2, f1f2.getQuarantineStartDate());
             stm.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(F1F2DBContext.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    public void update(F1F2 f1f2){
+        try {
+            String sql="UPDATE [F1F2Management]\n" +
+                    "   SET \n" +
+                    "     [QuarantineStartDate] = ?\n" +
+                    " WHERE ID=?";
+            PreparedStatement stm= connection.prepareStatement(sql);
+            stm.setDate(1, f1f2.getQuarantineStartDate());
+            stm.setInt(2, f1f2.getID());
+            stm.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(F1F2DBContext.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    public F1F2 getF1F2ByID(int ID) {
+        
+        try {
+            String sql = "select f.ID,a.ApartmentID,b.BuildID,b.Name,r.FullName,r.DateOfBirth,r.HomeTown,r.Phone\n"
+                    + "					,QuarantineStartDate,NumberOfDaysQuarantine=DATEDIFF(DAY,f.QuarantineStartDate,GETDATE())\n"
+                    + "                                       from F1F2Management f\n"
+                    + "                                     inner join Resident r on r.ID=f.ID\n"
+                    + "                                     inner join Apartment a on a.ApartmentID=r.ApartmentID\n"
+                    + "                                       inner join Building b on b.BuildID=a.BuildID\n"
+                    + "where f.ID=?";
+
+            PreparedStatement stm = connection.prepareStatement(sql);
+            stm.setInt(1, ID);
+            ResultSet rs = stm.executeQuery();
+            if (rs.next()) {
+                F1F2 f = new F1F2();
+                f.setID(rs.getInt("ID"));
+                Resident r = new Resident();
+                r.setID(rs.getInt("ID"));
+                Apartment a = new Apartment();
+                a.setApartmentID(rs.getString("ApartmentID"));
+                r.setApartment(a);
+                Building b = new Building();
+                b.setBuildID(rs.getInt("BuildID"));
+                b.setName(rs.getString("Name"));
+                r.setBuilding(b);
+                r.setFullName(rs.getString("FullName"));
+                r.setDob(rs.getDate("DateOfBirth"));
+                r.setHomeTown(rs.getString("HomeTown"));
+                r.setPhone(rs.getInt("Phone"));
+                f.setResident(r);
+                f.setQuarantineStartDate(rs.getDate("QuarantineStartDate"));
+                f.setNumberOfDays(rs.getInt("NumberOfDaysQuarantine"));
+                return f;
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(F1F2DBContext.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
+    public void delete(int id){
+        try {
+            String sql_delete_f1f2="Delete from F1F2Management where ID=?";
+            PreparedStatement stm_delete_f1f2=connection.prepareStatement(sql_delete_f1f2);
+            stm_delete_f1f2.setInt(1, id);
+            stm_delete_f1f2.executeUpdate();
         } catch (SQLException ex) {
             Logger.getLogger(F1F2DBContext.class.getName()).log(Level.SEVERE, null, ex);
         }

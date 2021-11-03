@@ -458,4 +458,39 @@ public class ResidentDBContext extends DBContext {
             }
         }
     }
+    public void delete(int id){
+        try {
+            connection.setAutoCommit(false);
+            String sql="Delete from Resident where ID=?";
+            PreparedStatement stm=connection.prepareStatement(sql);
+            stm.setInt(1, id);
+            stm.executeUpdate();
+            
+            String sql_delete_vaccine="Delete from Vaccination where ID=?";
+            PreparedStatement stm_delete_vaccine=connection.prepareStatement(sql_delete_vaccine);
+            stm_delete_vaccine.setInt(1, id);
+            stm_delete_vaccine.executeUpdate();
+            
+            String sql_delete_f1f2="Delete from F1F2Management where ID=?";
+            PreparedStatement stm_delete_f1f2=connection.prepareStatement(sql_delete_f1f2);
+            stm_delete_f1f2.setInt(1, id);
+            stm_delete_f1f2.executeUpdate();
+            
+            connection.commit();
+        } catch (SQLException ex) {
+            Logger.getLogger(ResidentDBContext.class.getName()).log(Level.SEVERE, null, ex);
+            try {
+                connection.rollback();
+            } catch (SQLException ex1) {
+                Logger.getLogger(ResidentDBContext.class.getName()).log(Level.SEVERE, null, ex1);
+            }
+        }
+        finally{
+            try {
+                connection.setAutoCommit(true);
+            } catch (SQLException ex) {
+                Logger.getLogger(ResidentDBContext.class.getName()).log(Level.SEVERE, null, ex);
+            }
+    }
+    }
 }

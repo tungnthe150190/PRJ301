@@ -5,6 +5,7 @@
  */
 package controller.resident;
 
+import controller.authentication.BaseRequiredAuthenController;
 import dal.ApartmentDBContext;
 import dal.ResidentDBContext;
 import java.io.IOException;
@@ -23,7 +24,7 @@ import model.Vaccination;
  *
  * @author Tung
  */
-public class InsertResidentController extends HttpServlet {
+public class InsertResidentController extends BaseRequiredAuthenController {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -44,7 +45,7 @@ public class InsertResidentController extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+    protected void processGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         ApartmentDBContext db = new ApartmentDBContext();
         ArrayList<Apartment> aparts = db.getAparts();
@@ -61,7 +62,7 @@ public class InsertResidentController extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+    protected void processPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         ResidentDBContext db = new ResidentDBContext();
         String id = request.getParameter("id");

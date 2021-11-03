@@ -3,24 +3,20 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package controller.authentication;
+package controller.resident;
 
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import model.Account;
-import model.Feature;
 
 /**
  *
  * @author Tung
  */
-
-
+public class DeleteF1F2Controller extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -31,29 +27,23 @@ import model.Feature;
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-    public abstract class BaseRequiredAuthenController extends HttpServlet {
-    
-    private boolean isAuthenticated(HttpServletRequest request)
-    {
-        Account account = (Account)request.getSession().getAttribute("account");
-        boolean isAuthorized = false;
-        if(account ==null)
-            return false;
-        else
-        {
-            String url = request.getServletPath();
-            for (Feature feature : account.getFeatures()) {
-                if(feature.getUrl().equals(url))
-                {
-                    isAuthorized = true;
-                    break;
-                }
-            }
+    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        response.setContentType("text/html;charset=UTF-8");
+        try (PrintWriter out = response.getWriter()) {
+            /* TODO output your page here. You may use following sample code. */
+            out.println("<!DOCTYPE html>");
+            out.println("<html>");
+            out.println("<head>");
+            out.println("<title>Servlet DeleteF1F2Controller</title>");            
+            out.println("</head>");
+            out.println("<body>");
+            out.println("<h1>Servlet DeleteF1F2Controller at " + request.getContextPath() + "</h1>");
+            out.println("</body>");
+            out.println("</html>");
         }
-        return isAuthorized;
     }
-    
-    
+
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
@@ -66,20 +56,8 @@ import model.Feature;
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        if(isAuthenticated(request))
-        {
-            processGet(request, response);
-        }
-        else
-        {
-            response.getWriter().println("Access denied!");
-        }
+        processRequest(request, response);
     }
-    protected abstract void processGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException;
-    
-    protected abstract void processPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException;
 
     /**
      * Handles the HTTP <code>POST</code> method.
@@ -92,16 +70,8 @@ import model.Feature;
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        if(isAuthenticated(request))
-        {
-            processPost(request, response);
-        }
-        else
-        {
-            response.getWriter().println("Access denied!");
-        }
+        processRequest(request, response);
     }
-
 
     /**
      * Returns a short description of the servlet.

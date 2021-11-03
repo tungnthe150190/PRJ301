@@ -48,6 +48,18 @@
         <servlet-name>UpdateResidentController</servlet-name>
         <servlet-class>controller.resident.UpdateResidentController</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>UpdateF1F2Controller</servlet-name>
+        <servlet-class>controller.resident.UpdateF1F2Controller</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>DeleteResidentController</servlet-name>
+        <servlet-class>controller.resident.DeleteResidentController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>DeleteF1F2Controller</servlet-name>
+        <servlet-class>controller.resident.DeleteF1F2Controller</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>LoginController</servlet-name>
         <url-pattern>/login</url-pattern>
@@ -87,6 +99,18 @@
     <servlet-mapping>
         <servlet-name>UpdateResidentController</servlet-name>
         <url-pattern>/resident/updateresident</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>UpdateF1F2Controller</servlet-name>
+        <url-pattern>/resident/updatef1f2</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>DeleteResidentController</servlet-name>
+        <url-pattern>/resident/deleteresident</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>DeleteF1F2Controller</servlet-name>
+        <url-pattern>/resident/deletef1f2</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

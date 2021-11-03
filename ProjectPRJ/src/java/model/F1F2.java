@@ -12,12 +12,11 @@ import java.sql.Date;
  * @author Tung
  */
 public class F1F2 {
+
     private int ID;
     private Date quarantineStartDate;
     private int numberOfDays;
     private Resident resident;
-    private Building building;
-    private Apartment apartment;
 
     public F1F2() {
     }
@@ -25,7 +24,7 @@ public class F1F2 {
     public F1F2(int ID, Date quarantineStartDate) {
         this.ID = ID;
         this.quarantineStartDate = quarantineStartDate;
-        
+
     }
 
     public int getNumberOfDays() {
@@ -43,7 +42,6 @@ public class F1F2 {
     public void setQuarantineStartDate(Date quarantineStartDate) {
         this.quarantineStartDate = quarantineStartDate;
     }
-    
 
     public Resident getResident() {
         return resident;
@@ -53,23 +51,6 @@ public class F1F2 {
         this.resident = resident;
     }
 
-    public Building getBuilding() {
-        return building;
-    }
-
-    public void setBuilding(Building building) {
-        this.building = building;
-    }
-
-    public Apartment getApartment() {
-        return apartment;
-    }
-
-    public void setApartment(Apartment apartment) {
-        this.apartment = apartment;
-    }
-    
-
     public int getID() {
         return ID;
     }
@@ -78,6 +59,4 @@ public class F1F2 {
         this.ID = ID;
     }
 
-   
-    
 }

@@ -3,12 +3,13 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/Admin/Desktop/Learn/ProjectPRJ/PRJ301/ProjectPRJ/web/view/list/updateresident.jsp</file>
-            <file>file:/C:/Users/Admin/Desktop/Learn/ProjectPRJ/PRJ301/ProjectPRJ/web/view/list/resident.jsp</file>
-            <file>file:/C:/Users/Admin/Desktop/Learn/ProjectPRJ/PRJ301/ProjectPRJ/src/java/controller/resident/UpdateResidentController.java</file>
-            <file>file:/C:/Users/Admin/Desktop/Learn/ProjectPRJ/PRJ301/ProjectPRJ/web/view/insert/insertresident.jsp</file>
+            <file>file:/C:/Users/Admin/Desktop/Learn/ProjectPRJ/PRJ301/ProjectPRJ/web/view/list/F1F2.jsp</file>
+            <file>file:/C:/Users/Admin/Desktop/Learn/ProjectPRJ/PRJ301/ProjectPRJ/src/java/controller/resident/DeleteResidentController.java</file>
+            <file>file:/C:/Users/Admin/Desktop/Learn/ProjectPRJ/PRJ301/ProjectPRJ/web/view/insert/insertf1f2.jsp</file>
             <file>file:/C:/Users/Admin/Desktop/Learn/ProjectPRJ/PRJ301/ProjectPRJ/src/java/dal/ResidentDBContext.java</file>
-            <file>file:/C:/Users/Admin/Desktop/Learn/ProjectPRJ/PRJ301/ProjectPRJ/src/java/controller/resident/InsertResidentController.java</file>
+            <file>file:/C:/Users/Admin/Desktop/Learn/ProjectPRJ/PRJ301/ProjectPRJ/web/view/list/updatef1f2.jsp</file>
+            <file>file:/C:/Users/Admin/Desktop/Learn/ProjectPRJ/PRJ301/ProjectPRJ/src/java/controller/resident/DeleteF1F2Controller.java</file>
+            <file>file:/C:/Users/Admin/Desktop/Learn/ProjectPRJ/PRJ301/ProjectPRJ/src/java/dal/F1F2DBContext.java</file>
         </group>
     </open-files>
 </project-private>

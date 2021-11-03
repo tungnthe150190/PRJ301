@@ -13,6 +13,15 @@
         <title>F1F2 Management</title>
         <script src="../js/pagger.js" type="text/javascript"></script>
         <link href="../css/pagger.css" rel="stylesheet" type="text/css"/>
+        <script>
+            function doUpdate(id)
+            {
+                
+                 window.location.href = "updatef1f2?id="+id;
+             
+            }
+           
+        </script>
     </head>
     <body>
         <h1>F1F2 Management</h1>
@@ -28,20 +37,22 @@
                 <td>Phone</td>
                 <td>QuarantineStartDate</td> 
                 <td>NumberOfDaysQuarantine</td>
+                <td></td>
 
 
             </tr>
             <c:forEach items="${requestScope.listF1F2}" var="list">
                 <tr>
                     <td>${list.ID}</td>
-                    <td>${list.apartment.apartmentID}</td>
-                    <td>${list.building.name}</td>
+                    <td>${list.resident.apartment.apartmentID}</td>
+                    <td>${list.resident.building.name}</td>
                     <td>${list.resident.fullName}</td>
                     <td>${list.resident.dob}</td>
                     <td>${list.resident.homeTown}</td>
                     <td>${list.resident.phone}</td>
                     <td>${list.quarantineStartDate}</td>
                     <td>${list.numberOfDays}</td>
+                    <td> <input type="button" onclick="doUpdate(${list.ID});" value="Update"/></td>
                 </tr>
             </c:forEach>
         </table>
