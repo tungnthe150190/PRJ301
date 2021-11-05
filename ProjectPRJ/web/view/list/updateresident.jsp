@@ -14,6 +14,8 @@
         
     </head>
     <body>
+        <h1>Update Resident Infomation</h1>
+         <a href="../view/menu/menu.jsp"><button>HOME</button></a><br/> <br/>
         <form action="updateresident" method="POST">
             Resident ID: <input type="hidden" name="id" value="${requestScope.resident.ID}"/>${requestScope.resident.ID}<br/>
             Apartment: <select name="apartmentID">

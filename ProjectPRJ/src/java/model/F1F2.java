@@ -17,7 +17,7 @@ public class F1F2 {
     private Date quarantineStartDate;
     private int numberOfDays;
     private Resident resident;
-
+    
     public F1F2() {
     }
 

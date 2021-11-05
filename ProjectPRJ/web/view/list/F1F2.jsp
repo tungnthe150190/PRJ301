@@ -29,23 +29,24 @@
     </head>
     <body>
         <h1>F1F2 Management</h1>
+         <a href="../view/menu/menu.jsp"><button>HOME</button></a><br/> <br/>
         <div id="paggerTop" class="pagger"></div>
         <table border="1px">
-            <tr>
-                <td>ID</td>
-                <td>Apartment</td>
-                <td>Building</td>
-                <td>Fullname</td>
-                <td>DateOfBirth</td>
-                <td>HomeTown</td> 
-                <td>Phone</td>
-                <td>QuarantineStartDate</td> 
-                <td>NumberOfDaysQuarantine</td>
+            <tr align="center" valign="middle" height="30px">
+                <th>ID</th>
+                <th>Apartment</th>
+                <th>Building</th>
+                <th>Fullname</th>
+                <th>DateOfBirth</th>
+                <th>HomeTown</th> 
+                <th>Phone</th>
+                <th>QuarantineStartDate</th> 
+                <th>NumberOfDaysQuarantine</th>
                 <td></td>
                 <td></td>
             </tr>
             <c:forEach items="${requestScope.listF1F2}" var="list">
-                <tr>
+                <tr align="center" valign="middle" height="30px">
                     <td>${list.ID}</td>
                     <td>${list.resident.apartment.apartmentID}</td>
                     <td>${list.resident.building.name}</td>

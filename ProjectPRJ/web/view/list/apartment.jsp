@@ -15,15 +15,17 @@
         <link href="../css/pagger.css" rel="stylesheet" type="text/css"/>
     </head>
     <body>
+        <h1>Apartment Infomation</h1>
+         <a href="../view/menu/menu.jsp"><button>HOME</button></a><br/> <br/>
          <div id="paggerTop" class="pagger"></div>
         <table border="1px">
-            <tr>
-                <td>ApartmentID</td>
-                <td>BuildID</td>
-                <td>AmountOfPeople</td>
+            <tr align="center" valign="middle" height="30px">
+                <th>ApartmentID</th>
+                <th>BuildID</th>
+                <th>AmountOfPeople</th>
             </tr>
             <c:forEach items="${requestScope.apartments}" var="a">
-                <tr>
+                <tr align="center" valign="middle" height="30px">
                     <td>${a.apartmentID}</td>
                     <td>${a.build.buildID}</td>
                     <td>${a.amountPeople}</td>

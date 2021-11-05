@@ -11,31 +11,38 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>JSP Page</title>
-        <link href="../css/f1f2.css" rel="stylesheet" type="text/css"/>
+        <link href="../css/loginstyle.css" rel="stylesheet" type="text/css"/>
     </head>
-    <body>
-        <table>
-            <tr>
-                <td><a href="../resident/listresident"><button>View resident infomation</button></a></td></tr>
-            <tr>  <td><a href="../resident/searchresident"><button>Search resident infomation</button></a></td></tr>
-            <tr>  <td><a href="../resident/listF1F2"><button>View list F1F2</button></a></td></tr>
-            </table>
-            <form action="insertf1f2" method="POST">          
-                <table>
-                    <tr><td><h3>Input F1/F2</h3></td></tr>
-                <tr>
-                    <td>ID</td>
-                    <td> <input type="number" name="ID"/></td>  </tr>                   
-                <tr>
-                    <td>Quarantine Start Date</td>
-                    <td> <input type="date" name="quarantineDate"/></td> 
-                </tr>
-                <tr>
-                    <td></td>
-                    <td> <input id="submit" type="submit" value="InsertF1/F2"/> </td>
-                </tr>
-        </table>
-    </form>
-</body>
+    
+    <body>       
+        <div class="container">          
+            <div class="login-form">
+                <a href="../view/menu/menu.jsp"><button>HOME</button></a><br/> 
+                <br/>
+                <div class="input-box">
+                        <i ></i>
+                        <a href="../resident/listresident"><button>View resident infomation</button></a><br/>
+                        <br/><a href="../resident/searchresident"><button>Search resident infomation</button></a><br/>
+                        <br/><a href="../resident/listF1F2"><button>View list F1F2</button></a>
+                    </div>       
+        <form action="insertf1f2" method="POST">  
+            <h1>Insert F1/F2</h1>
+            <div class="input-box">
+                        <i ></i>
+                      ID: <input type="number" name="ID"/>
+                    </div>
+            <div class="input-box">
+                        <i ></i>
+                      Quarantine Start Date: <input type="date" name="quarantineDate"/>
+                    </div>
+                    <div class="btn-box">
+                        <button type="submit">
+                            Insert F1/F2
+                        </button>
+                    </div>                                         
+        </form>
+            </div>
+        </div>
+    </body>
 
 </html>

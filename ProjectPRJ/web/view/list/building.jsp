@@ -13,16 +13,18 @@
         <title>List Building</title>
     </head>
     <body>
+        <h1>Building Infomation</h1>
+         <a href="../view/menu/menu.jsp"><button>HOME</button></a><br/> <br/>
         <table border="1px">
-            <tr>
-                <td>BuildID</td>
-                <td>Name</td>
-                <td>NumberOfFloors</td>
-                <td>NumberOfPeople</td>
-                <td>NumberF1F2</td>
+            <tr align="center" valign="middle" height="30px">
+                <th>BuildID</th>
+                <th>Name</th>
+                <th>NumberOfFloors</th>
+                <th>NumberOfPeople</th>
+                <th>NumberF1F2</th>
             </tr>
             <c:forEach items="${requestScope.buildings}" var="b">
-                <tr>
+                <tr align="center" valign="middle" height="30px">
                 <td>${b.buildID}</td>
                 <td>${b.name}</td>
                 <td>${b.numberOfFloors}</td>

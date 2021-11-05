@@ -13,6 +13,8 @@
         <title>Update list F1 F2</title>
     </head>
     <body>
+        <h1>Update F1,F2</h1>
+         <a href="../view/menu/menu.jsp"><button>HOME</button></a><br/> <br/>
         <form action="updatef1f2" method="POST">
             Resident ID: <input type="hidden" name="id" value="${requestScope.f1f2.ID}"/>${requestScope.f1f2.ID}<br/>
             Apartment: ${requestScope.f1f2.resident.apartment.apartmentID} <br/>

@@ -3,23 +3,19 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package controller.resident;
 
-import dal.ResidentDBContext;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.ArrayList;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import model.Resident;
 
 /**
  *
  * @author Tung
  */
-public class ListResidentController extends HttpServlet {
+public class LogoutController extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -32,22 +28,8 @@ public class ListResidentController extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String raw_page = request.getParameter("page");
-        if (raw_page == null || raw_page.length() == 0) {
-            raw_page = "1";
-        }
-        int page = Integer.parseInt(raw_page);
-        ResidentDBContext db=new ResidentDBContext();   
-        int pagesize = 20;
-        ArrayList<Resident> residents = db.getResidentsWithPagging(pagesize, page);
-        ArrayList<Resident> totalresident=db.getResidents();
-        int count=totalresident.size();
-//        int count=db.getRowCount();
-       int totalpage = (count % pagesize == 0) ? count / pagesize : (count / pagesize) + 1;
-        request.setAttribute("totalpage", totalpage);
-        request.setAttribute("pageindex", page);
-        request.setAttribute("residents", residents);
-        request.getRequestDispatcher("../view/list/resident.jsp").forward(request, response);
+        request.getSession().setAttribute("account", null);
+        response.sendRedirect("view/menu/menu.jsp");
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

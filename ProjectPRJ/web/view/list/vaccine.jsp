@@ -25,24 +25,25 @@
     </head>
     <body>
         <h1>List of residents who have been vaccinated</h1>
+         <a href="../view/menu/menu.jsp"><button>HOME</button></a><br/> <br/>
         <div id="paggerTop" class="pagger"></div>
         <table border="1px">
-            <tr>
-                <td>ID</td>
-                <td>Apartment</td>
-                <td>Building</td>
-                <td>Fullname</td>
-                <td>DateOfBirth</td>             
-                <td>Phone</td>
-                <td>1st Injection</td>
-                <td>1st Date</td>
-                <td>2nd Injection</td> 
-                <td>2nd Date</td>
+            <tr align="center" valign="middle" height="30px">
+                <th>ID</th>
+                <th>Apartment</th>
+                <th>Building</th>
+                <th>Fullname</th>
+                <th>DateOfBirth</th>             
+                <th>Phone</th>
+                <th>1st Injection</th>
+                <th>1st Date</th>
+                <th>2nd Injection</th> 
+                <th>2nd Date</th>
                 <td></td>
 
             </tr>
             <c:forEach items="${requestScope.listVaccine}" var="list">
-                <tr>
+                <tr align="center" valign="middle" height="30px">
                     <td>${list.ID}</td>
                     <td>${list.resident.apartment.apartmentID}</td>
                     <td>${list.resident.building.name}</td>

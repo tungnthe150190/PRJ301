@@ -230,7 +230,7 @@ public class ResidentDBContext extends DBContext {
                 r.setDob(rs.getDate("DateOfBirth"));
                 r.setHomeTown(rs.getString("HomeTown"));
                 r.setPhone(rs.getInt("Phone"));
-                Vaccination v=new Vaccination();
+                Vaccination v = new Vaccination();
                 v.setFirstInjection(rs.getBoolean("1 injection"));
                 v.setFirstInjectionDate(rs.getDate("1injectionDate"));
                 v.setSecondInjection(rs.getBoolean("2 injection"));
@@ -250,21 +250,23 @@ public class ResidentDBContext extends DBContext {
         try {
 
             String sql = "SELECT r.[ID]\n"
-                    + ",b.BuildID\n"
-                    + ",Name\n"
-                    + ",a.ApartmentID\n"
-                    + ",FullName\n"
-                    + ",DateOfBirth\n"
-                    + ",HomeTown\n"
-                    + ",Phone\n"
-                    + ",[1 injection]\n"
-                    + ",[2 injection]\n"
-                    + "FROM [Resident] r\n"
-                    + "inner join [Vaccination] v on r.ID=v.ID\n"
-                    + "inner join Apartment a on a.ApartmentID=r.ApartmentID\n"
-                    + "inner join Building b on b.BuildID=a.BuildID\n"
-                    + "WHERE\n"
-                    + "(1=1)\n";
+                    + "                    ,b.BuildID\n"
+                    + "                    ,Name\n"
+                    + "                    ,a.ApartmentID\n"
+                    + "                    ,FullName\n"
+                    + "                    ,DateOfBirth\n"
+                    + "                    ,HomeTown\n"
+                    + "                    ,Phone\n"
+                    + "                    ,[1 injection]\n"
+                    + "			   ,[1injectionDate]\n"
+                    + "                    ,[2 injection]\n"
+                    + "			   ,[2injectionDate]\n"
+                    + "                    FROM [Resident] r\n"
+                    + "                    inner join [Vaccination] v on r.ID=v.ID\n"
+                    + "                    inner join Apartment a on a.ApartmentID=r.ApartmentID\n"
+                    + "                    inner join Building b on b.BuildID=a.BuildID\n"
+                    + "                    WHERE\n"
+                    + "                    (1=1)\n";
 
             HashMap<Integer, Object[]> params = new HashMap<>();
             int paramIndex = 0;
@@ -383,7 +385,9 @@ public class ResidentDBContext extends DBContext {
                 r.setPhone(rs.getInt("Phone"));
                 Vaccination v = new Vaccination();
                 v.setFirstInjection(rs.getBoolean("1 injection"));
+                v.setFirstInjectionDate(rs.getDate("1injectionDate"));
                 v.setSecondInjection(rs.getBoolean("2 injection"));
+                v.setSecondInjectionDate(rs.getDate("2injectionDate"));
                 r.setVaccine(v);
                 residents.add(r);
             }
@@ -458,28 +462,25 @@ public class ResidentDBContext extends DBContext {
             }
         }
     }
-    public void delete(int id){
+
+    public void delete(int id) {
         try {
             connection.setAutoCommit(false);
-            String sql_delete_f1f2="Delete from F1F2Management where ID=?";
-            PreparedStatement stm_delete_f1f2=connection.prepareStatement(sql_delete_f1f2);
+            String sql_delete_f1f2 = "Delete from F1F2Management where ID=?";
+            PreparedStatement stm_delete_f1f2 = connection.prepareStatement(sql_delete_f1f2);
             stm_delete_f1f2.setInt(1, id);
             stm_delete_f1f2.executeUpdate();
-            
-            String sql_delete_vaccine="Delete from Vaccination where ID=?";
-            PreparedStatement stm_delete_vaccine=connection.prepareStatement(sql_delete_vaccine);
+
+            String sql_delete_vaccine = "Delete from Vaccination where ID=?";
+            PreparedStatement stm_delete_vaccine = connection.prepareStatement(sql_delete_vaccine);
             stm_delete_vaccine.setInt(1, id);
             stm_delete_vaccine.executeUpdate();
-            
-            String sql="Delete from Resident where ID=?";
-            PreparedStatement stm=connection.prepareStatement(sql);
+
+            String sql = "Delete from Resident where ID=?";
+            PreparedStatement stm = connection.prepareStatement(sql);
             stm.setInt(1, id);
             stm.executeUpdate();
-            
-            
-            
-            
-            
+
             connection.commit();
         } catch (SQLException ex) {
             Logger.getLogger(ResidentDBContext.class.getName()).log(Level.SEVERE, null, ex);
@@ -488,13 +489,12 @@ public class ResidentDBContext extends DBContext {
             } catch (SQLException ex1) {
                 Logger.getLogger(ResidentDBContext.class.getName()).log(Level.SEVERE, null, ex1);
             }
-        }
-        finally{
+        } finally {
             try {
                 connection.setAutoCommit(true);
             } catch (SQLException ex) {
                 Logger.getLogger(ResidentDBContext.class.getName()).log(Level.SEVERE, null, ex);
             }
-    }
+        }
     }
 }

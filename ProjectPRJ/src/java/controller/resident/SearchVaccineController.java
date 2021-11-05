@@ -8,6 +8,7 @@ package controller.resident;
 import dal.ApartmentDBContext;
 import dal.BuildingDBContext;
 import dal.ResidentDBContext;
+import dal.VaccinationDBContext;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Date;
@@ -19,12 +20,13 @@ import javax.servlet.http.HttpServletResponse;
 import model.Apartment;
 import model.Building;
 import model.Resident;
+import model.Vaccination;
 
 /**
  *
  * @author Tung
  */
-public class SearchResidentController extends HttpServlet {
+public class SearchVaccineController extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -37,11 +39,6 @@ public class SearchResidentController extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-//        String raw_page = request.getParameter("page");
-//        if (raw_page == null || raw_page.length() == 0) {
-//            raw_page = "1";
-//        }
-//        int page = Integer.parseInt(raw_page);
         ApartmentDBContext adb = new ApartmentDBContext();
         BuildingDBContext bdb = new BuildingDBContext();
         ArrayList<Apartment> aparts = adb.getAparts();
@@ -53,20 +50,21 @@ public class SearchResidentController extends HttpServlet {
         String raw_name = request.getParameter("name");
         String raw_from = request.getParameter("from");
         String raw_to = request.getParameter("to");
-        String raw_homeTown = request.getParameter("homeTown");
-        String raw_phone = request.getParameter("phone");
+
+        String raw_homeTown = request.getParameter("homeTown");        
         String raw_firstInjection = request.getParameter("firstInjection");
+        String raw_firstfrom = request.getParameter("firstfrom");
+        String raw_firstto = request.getParameter("firstto");
         String raw_secondInjection = request.getParameter("secondInjection");
+        String raw_secondfrom = request.getParameter("secondfrom");
+        String raw_secondto = request.getParameter("secondto");
 
         if (raw_id == null || raw_id.length() == 0) {
             raw_id = "-1";
         }
         if (raw_buildID == null || raw_buildID.length() == 0) {
             raw_buildID = "-1";
-        }
-        if (raw_phone == null || raw_phone.length() == 0) {
-            raw_phone = "-1";
-        }
+        }       
         if (raw_apartmentID == null || raw_apartmentID.length() == 0) {
             raw_apartmentID = "";
         }
@@ -81,40 +79,34 @@ public class SearchResidentController extends HttpServlet {
         int phone;
         int buildID;
         try {
-            id = Integer.parseInt(raw_id);
-            phone = Integer.parseInt(raw_phone);
+            id = Integer.parseInt(raw_id);           
             buildID = Integer.parseInt(raw_buildID);
         } catch (NumberFormatException e) {
             response.getWriter().println("Not found resident !");
             return;
         }
-
         Date from = (raw_from != null && raw_from.length() > 0) ? Date.valueOf(raw_from) : null;
         Date to = (raw_to != null && raw_to.length() > 0) ? Date.valueOf(raw_to) : null;
+        Date firstfrom = (raw_firstfrom != null && raw_firstfrom.length() > 0) ? Date.valueOf(raw_firstfrom) : null;
+        Date firstto = (raw_firstto != null && raw_firstto.length() > 0) ? Date.valueOf(raw_firstto) : null;
+        Date secondfrom = (raw_secondfrom != null && raw_secondfrom.length() > 0) ? Date.valueOf(raw_secondfrom) : null;
+        Date secondto = (raw_secondto != null && raw_secondto.length() > 0) ? Date.valueOf(raw_secondto) : null;
         Boolean firstInjection = (!raw_firstInjection.equals("all")) ? raw_firstInjection.equals("Yes") : null;
         Boolean secondInjection = (!raw_secondInjection.equals("all")) ? raw_secondInjection.equals("Yes") : null;
-
-       
-        ResidentDBContext rdb = new ResidentDBContext();
-        ArrayList<Resident> residents = rdb.search(id, buildID, raw_apartmentID, raw_name, from, to, raw_homeTown, phone, firstInjection, secondInjection);
-        
-         
-        if (residents.isEmpty()) {
+ VaccinationDBContext vdb = new VaccinationDBContext();
+        ArrayList<Resident> vaccines=vdb.search(id, buildID, raw_apartmentID, raw_name, from, to, raw_homeTown, firstInjection, firstfrom, firstto, secondInjection, secondfrom, secondto);
+        if (vaccines.isEmpty()) {
             response.getWriter().println("Not found resident !");
             return;
         }
-////        int count=results.size();
-////         int totalpage = (count % pagesize == 0) ? count / pagesize : (count / pagesize) + 1;
-//         ArrayList<Resident> residents=rdb.searchWithPagging(id, buildID, raw_apartmentID, raw_name, from, to, raw_homeTown, phone, firstInjection, secondInjection, page);
-//        request.setAttribute("results", results);
-////        request.setAttribute("totalpage", totalpage);
-//        request.setAttribute("pageindex", page);
-        request.setAttribute("residents", residents);
+       
+        
+        
+       
+        request.setAttribute("vaccines", vaccines);
         request.setAttribute("aparts", aparts);
         request.setAttribute("buildings", buildings);
-
-        request.setAttribute("id", id == -1 ? "" : id);
-        request.setAttribute("phone", phone == -1 ? "" : phone);
+        request.setAttribute("id", id == -1 ? "" : id);      
         request.setAttribute("buildID", buildID);
         request.setAttribute("apartmentID", raw_apartmentID);
         request.setAttribute("fullName", raw_name);
@@ -123,9 +115,12 @@ public class SearchResidentController extends HttpServlet {
         request.setAttribute("to", raw_to == null ? "" : raw_to);
         request.setAttribute("firstInjection", raw_firstInjection);
         request.setAttribute("secondInjection", raw_secondInjection);
+        request.setAttribute("firstfrom", raw_firstfrom == null ? "" : raw_firstfrom);
+        request.setAttribute("firstto", raw_firstto == null ? "" : raw_firstto);
+        request.setAttribute("secondfrom", raw_secondfrom == null ? "" : raw_secondfrom);
+        request.setAttribute("secondto", raw_secondto == null ? "" : raw_secondto);
 
-        request.getRequestDispatcher("../view/search/searchresident.jsp").forward(request, response);
-
+        request.getRequestDispatcher("../view/search/searchvaccine.jsp").forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
