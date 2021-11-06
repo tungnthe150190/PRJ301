@@ -110,6 +110,7 @@
                         </button>
                     </div>
                 </form>
+                    <a id="insert" href="../resident/insertf1f2"><button>Insert F1/F2</button></a><br/> 
             </div>
                     <div id="paggerTop" class="pagger"></div>
                     <table border="1" >
