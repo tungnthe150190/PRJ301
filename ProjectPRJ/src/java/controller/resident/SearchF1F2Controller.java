@@ -39,6 +39,12 @@ public class SearchF1F2Controller extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        String raw_page = request.getParameter("page");
+        if (raw_page == null || raw_page.length() == 0) {
+            raw_page = "1";
+        }
+        int page = Integer.parseInt(raw_page);
+        
          ApartmentDBContext adb = new ApartmentDBContext();
         BuildingDBContext bdb = new BuildingDBContext();
         ArrayList<Apartment> aparts = adb.getAparts();
@@ -80,7 +86,7 @@ public class SearchF1F2Controller extends HttpServlet {
             phone = Integer.parseInt(raw_phone);
             buildID = Integer.parseInt(raw_buildID);
         } catch (NumberFormatException e) {
-            response.getWriter().println("Not found resident !");
+            response.getWriter().println("Input invalid  !");
             return;
         }
 
@@ -97,7 +103,13 @@ public class SearchF1F2Controller extends HttpServlet {
             response.getWriter().println("Not found resident !");
             return;
         }
-        request.setAttribute("f1f2", f1f2);
+        ArrayList<F1F2> results=fdb.searchWithPagging(page, id, buildID, raw_apartmentID, raw_name, phone, firstInjection, secondInjection, from);
+        int count=f1f2.size();
+        int totalpage = (count % 10 == 0) ? count / 10 : (count / 10) + 1;
+        
+       request.setAttribute("totalpage", totalpage);
+        request.setAttribute("pageindex", page);
+        request.setAttribute("results", results);
         request.setAttribute("aparts", aparts);
         request.setAttribute("buildings", buildings);
 

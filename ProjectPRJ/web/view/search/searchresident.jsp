@@ -12,7 +12,8 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Search Resident</title>
 <link href="../css/loginstyle.css" rel="stylesheet" type="text/css"/>
- 
+ <script src="../js/pagger.js" type="text/javascript"></script>
+        <link href="../css/pagger.css" rel="stylesheet" type="text/css"/>
     </head>
     <body>
         <div class="container">
@@ -106,7 +107,7 @@
                                </form>
  </div>
                                
-              
+              <div id="paggerTop" class="pagger"></div>
                 <table border="1px">
                     <tr align="center" valign="middle" height="30px">
                         <th>ID</th>
@@ -122,7 +123,7 @@
 
 
                     </tr>
-                    <c:forEach items="${requestScope.residents}" var="r">
+                    <c:forEach items="${requestScope.results}" var="r">
                         <tr align="center" valign="middle" height="30px">
                             <td>${r.ID}</td>
                             <td>${r.apartment.apartmentID}</td>
@@ -133,15 +134,15 @@
                             <td>${r.phone}</td>
                             <td>${r.vaccine.firstInjection?"Yes":"No"}</td>                   
                             <td>${r.vaccine.secondInjection?"Yes":"No"}</td>
-
                         </tr>
                     </c:forEach>
                 </table>
-<!--           <div id="paggerBottom" class="pagger"></div>
+           <div id="paggerBottom" class="pagger"></div>
         <script>
-            createPagger('paggerTop',${requestScope.pageindex}, 2,${requestScope.totalpage}, "searchresident");
-            createPagger('paggerBottom',${requestScope.pageindex}, 2,${requestScope.totalpage}, "searchresident");
-        </script>-->
+            createSearchPagger('paggerTop',${requestScope.pageindex}, 2,${requestScope.totalpage}, "searchresident","&id=${requestScope.id}&buildID=${requestScope.buildID}&apartmentID=${requestScope.apartmentID}&name=${requestScope.fullName}&from=${requestScope.from}&to=${requestScope.to}&homeTown=${requestScope.homeTown}&phone=${requestScope.phone}&firstInjection=${requestScope.firstInjection}&secondInjection=${requestScope.secondInjection}");
+            createSearchPagger('paggerBottom',${requestScope.pageindex}, 2,${requestScope.totalpage}, "searchresident","&id=${requestScope.id}&buildID=${requestScope.buildID}&apartmentID=${requestScope.apartmentID}&name=${requestScope.fullName}&from=${requestScope.from}&to=${requestScope.to}&homeTown=${requestScope.homeTown}&phone=${requestScope.phone}&firstInjection=${requestScope.firstInjection}&secondInjection=${requestScope.secondInjection}");
+            
+        </script>
         </div>     
     </body>
 </html>

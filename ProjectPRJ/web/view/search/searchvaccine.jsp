@@ -12,6 +12,8 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Search vaccinated</title>
         <link href="../css/loginstyle.css" rel="stylesheet" type="text/css"/>
+        <script src="../js/pagger.js" type="text/javascript"></script>
+        <link href="../css/pagger.css" rel="stylesheet" type="text/css"/>
     </head>
     <body>
         <div class="container">
@@ -109,6 +111,7 @@
                     </div>
                 </form>
             </div>
+                    <div id="paggerTop" class="pagger"></div>
                     <table border="1" >
                 <tr align="center" valign="middle" height="30px">
                     <th>ID</th>
@@ -123,7 +126,7 @@
                     <th>2nd Injection</th> 
                     <th>2st Injection Date</th> 
                 </tr>
-                <c:forEach items="${requestScope.vaccines}" var="r">
+                <c:forEach items="${requestScope.results}" var="r">
                     <tr align="center" valign="middle" height="30px">
                         <td>${r.ID}</td>
                         <td>${r.apartment.apartmentID}</td>
@@ -139,7 +142,12 @@
                     </tr>
                 </c:forEach>
             </table>
-
+                    <div id="paggerBottom" class="pagger"></div>
+<script>
+            createSearchPagger('paggerTop',${requestScope.pageindex}, 2,${requestScope.totalpage}, "searchvaccine","&id=${requestScope.id}&buildID=${requestScope.buildID}&apartmentID=${requestScope.apartmentID}&firstInjection=${requestScope.firstInjection}&firstfrom=${requestScope.firstfrom}&firstto=${requestScope.firstto}&secondInjection=${requestScope.secondInjection}&secondfrom=${requestScope.secondfrom}&secondto=${requestScope.secondto}&name=${requestScope.fullName}&from=${requestScope.from}&to=${requestScope.to}&homeTown=${requestScope.homeTown}");
+            createSearchPagger('paggerBottom',${requestScope.pageindex}, 2,${requestScope.totalpage}, "searchvaccine","&id=${requestScope.id}&buildID=${requestScope.buildID}&apartmentID=${requestScope.apartmentID}&firstInjection=${requestScope.firstInjection}&firstfrom=${requestScope.firstfrom}&firstto=${requestScope.firstto}&secondInjection=${requestScope.secondInjection}&secondfrom=${requestScope.secondfrom}&secondto=${requestScope.secondto}&name=${requestScope.fullName}&from=${requestScope.from}&to=${requestScope.to}&homeTown=${requestScope.homeTown}");
+            
+        </script>
         </div>     
     </body>
 </html>

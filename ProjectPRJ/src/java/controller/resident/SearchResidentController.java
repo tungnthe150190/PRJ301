@@ -37,11 +37,11 @@ public class SearchResidentController extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-//        String raw_page = request.getParameter("page");
-//        if (raw_page == null || raw_page.length() == 0) {
-//            raw_page = "1";
-//        }
-//        int page = Integer.parseInt(raw_page);
+        String raw_page = request.getParameter("page");
+        if (raw_page == null || raw_page.length() == 0) {
+            raw_page = "1";
+        }
+        int page = Integer.parseInt(raw_page);
         ApartmentDBContext adb = new ApartmentDBContext();
         BuildingDBContext bdb = new BuildingDBContext();
         ArrayList<Apartment> aparts = adb.getAparts();
@@ -103,13 +103,13 @@ public class SearchResidentController extends HttpServlet {
             response.getWriter().println("Not found resident !");
             return;
         }
-////        int count=results.size();
-////         int totalpage = (count % pagesize == 0) ? count / pagesize : (count / pagesize) + 1;
-//         ArrayList<Resident> residents=rdb.searchWithPagging(id, buildID, raw_apartmentID, raw_name, from, to, raw_homeTown, phone, firstInjection, secondInjection, page);
-//        request.setAttribute("results", results);
-////        request.setAttribute("totalpage", totalpage);
-//        request.setAttribute("pageindex", page);
-        request.setAttribute("residents", residents);
+        int count=residents.size();
+         int totalpage = (count % 20 == 0) ? count / 20 : (count / 20) + 1;
+        ArrayList<Resident> results=rdb.searchWithPagging(page,id, buildID, raw_apartmentID, raw_name, from, to, raw_homeTown, phone, firstInjection, secondInjection);
+        request.setAttribute("results", results);
+        request.setAttribute("totalpage", totalpage);
+        request.setAttribute("pageindex", page);
+       
         request.setAttribute("aparts", aparts);
         request.setAttribute("buildings", buildings);
 

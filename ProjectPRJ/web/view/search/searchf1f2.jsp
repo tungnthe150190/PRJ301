@@ -12,19 +12,21 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>JSP Page</title>
         <link href="../css/loginstyle.css" rel="stylesheet" type="text/css"/>
+        <script src="../js/pagger.js" type="text/javascript"></script>
+        <link href="../css/pagger.css" rel="stylesheet" type="text/css"/>
     </head>
     <body>
-        <body>
+    <body>
         <div class="container">
             <div class="login-form">
-                 <a href="../view/menu/menu.jsp"><button>HOME</button></a><br/> <br/>
+                <a href="../view/menu/menu.jsp"><button>HOME</button></a><br/> <br/>
                 <form action="searchf1f2">
                     <h1>Search F1F2</h1>
                     <div class="input-box">
                         <i ></i>
                         Resident ID:<input type="text" name="id" value="${requestScope.id}"/>
                     </div>
-                                    
+
                     <div class="input-box">
                         <i ></i>
                         Building: <select name="buildID"> 
@@ -52,11 +54,11 @@
                         <i ></i>
                         Phone : <input type="text" name="phone" value="${requestScope.phone}"/>
                     </div>  
-                     <div class="input-box">
+                    <div class="input-box">
                         <i ></i>
                         <h4>Quarantine Date:</h4><br/>
                         From : <input type="date" value="${requestScope.from}" name="from"/>
-                        
+
                     </div>
                     <div class="input-box">
                         <i ></i>
@@ -71,67 +73,73 @@
                             <tr>
                                 <td>First Injection </td>
                                 <td><input type="radio" name="firstInjection"
-                               ${requestScope.firstInjection eq "Yes"?"checked=\"checked\"":""} 
-                               value="Yes"/></td>
+                                           ${requestScope.firstInjection eq "Yes"?"checked=\"checked\"":""} 
+                                           value="Yes"/></td>
                                 <td><input type="radio" name="firstInjection"
-                               ${requestScope.firstInjection eq "No"?"checked=\"checked\"":""}
-                               value="No"/></td>
+                                           ${requestScope.firstInjection eq "No"?"checked=\"checked\"":""}
+                                           value="No"/></td>
                                 <td><input type="radio" name="firstInjection" 
-                               ${requestScope.firstInjection eq "all"?"checked=\"checked\"":""}
-                               value="all"/></td>
+                                           ${requestScope.firstInjection eq "all"?"checked=\"checked\"":""}
+                                           value="all"/></td>
                             </tr>
                             <tr>
                                 <td>Second Injection </td>
                                 <td><input type="radio" name="secondInjection"
-                               ${requestScope.secondInjection eq "Yes"?"checked=\"checked\"":""} 
-                               value="Yes"/></td>
+                                           ${requestScope.secondInjection eq "Yes"?"checked=\"checked\"":""} 
+                                           value="Yes"/></td>
                                 <td><input type="radio" name="secondInjection"
-                               ${requestScope.secondInjection eq "No"?"checked=\"checked\"":""}
-                               value="No"/></td>
+                                           ${requestScope.secondInjection eq "No"?"checked=\"checked\"":""}
+                                           value="No"/></td>
                                 <td><input type="radio" name="secondInjection" 
-                               ${requestScope.secondInjection eq "all"?"checked=\"checked\"":""}
-                               value="all"/></td>
+                                           ${requestScope.secondInjection eq "all"?"checked=\"checked\"":""}
+                                           value="all"/></td>
                             </tr>
                         </table> 
-                               
+
                     </div>   
                     <div class="btn-box">
                         <button type="submit">
                             Search
                         </button>
                     </div>
-                               </form>                              
- </div>
-                                 <table border="1px">
+                </form>                              
+            </div>
+            <div id="paggerTop" class="pagger"></div>
+            <table border="1px">
+                <tr align="center" valign="middle" height="30px">
+                    <th>ID</th>
+                    <th>Apartment</th>
+                    <th>Building</th>
+                    <th>Full Name</th>                       
+                    <th>Phone</th>
+                    <th>QuarantineStartDate</th>
+                    <th>NumberOfDaysQuarantine</th>
+                    <th>1st Injection</th>               
+                    <th>2nd Injection</th> 
+
+
+
+                </tr>
+                <c:forEach items="${requestScope.results}" var="f">
                     <tr align="center" valign="middle" height="30px">
-                        <th>ID</th>
-                        <th>Apartment</th>
-                        <th>Building</th>
-                        <th>Full Name</th>                       
-                        <th>Phone</th>
-                        <th>QuarantineStartDate</th>
-                        <th>NumberOfDaysQuarantine</th>
-                        <th>1st Injection</th>               
-                        <th>2nd Injection</th> 
-
-
+                        <td>${f.ID}</td>
+                        <td>${f.resident.apartment.apartmentID}</td>
+                        <td>${f.resident.building.name}</td>
+                        <td>${f.resident.fullName}</td>                          
+                        <td>${f.resident.phone}</td>
+                        <td>${f.quarantineStartDate}</td>
+                        <td>${f.numberOfDays}</td>
+                        <td>${f.resident.vaccine.firstInjection?"Yes":"No"}</td>                   
+                        <td>${f.resident.vaccine.secondInjection?"Yes":"No"}</td>
 
                     </tr>
-                    <c:forEach items="${requestScope.f1f2}" var="f">
-                        <tr align="center" valign="middle" height="30px">
-                            <td>${f.ID}</td>
-                            <td>${f.resident.apartment.apartmentID}</td>
-                            <td>${f.resident.building.name}</td>
-                            <td>${f.resident.fullName}</td>                          
-                            <td>${f.resident.phone}</td>
-                            <td>${f.quarantineStartDate}</td>
-                            <td>${f.numberOfDays}</td>
-                            <td>${f.resident.vaccine.firstInjection?"Yes":"No"}</td>                   
-                            <td>${f.resident.vaccine.secondInjection?"Yes":"No"}</td>
-
-                        </tr>
-                    </c:forEach>
-                </table>
+                </c:forEach>
+            </table>
+            <div id="paggerBottom" class="pagger"></div>
+             <script>
+            createSearchPagger('paggerTop',${requestScope.pageindex}, 2,${requestScope.totalpage}, "searchf1f2","&id=${requestScope.id}&buildID=${requestScope.buildID}&apartmentID=${requestScope.apartmentID}&name=${requestScope.fullName}&phone=${requestScope.phone}&from=${requestScope.from}&firstInjection=${requestScope.firstInjection}&secondInjection=${requestScope.secondInjection}");
+            createSearchPagger('paggerBottom',${requestScope.pageindex}, 2,${requestScope.totalpage}, "searchf1f2","&id=${requestScope.id}&buildID=${requestScope.buildID}&apartmentID=${requestScope.apartmentID}&name=${requestScope.fullName}&phone=${requestScope.phone}&from=${requestScope.from}&firstInjection=${requestScope.firstInjection}&secondInjection=${requestScope.secondInjection}");
+        </script>
         </div>
     </body>
 </html>

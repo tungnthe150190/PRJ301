@@ -338,4 +338,140 @@ public class F1F2DBContext extends DBContext {
         }
         return f1f2;
     }
+
+    public ArrayList<F1F2> searchWithPagging(int pageindex, int id, int buildID, String apartmentID, String fullName, int phone, Boolean firstInjection, Boolean secondInjection, Date from) {
+        ArrayList<F1F2> f1f2 = new ArrayList<>();
+        try {
+
+            String sql = "select rownum=ROW_NUMBER() OVER (Order by a.[ApartmentID] ASC), f.ID,r.FullName,r.ApartmentID,b.BuildID,b.Name,r.Phone\n"
+                    + "	,v.[1 injection],v.[1injectionDate],v.[2 injection],v.[2injectionDate],f.QuarantineStartDate,DATEDIFF(DAY,f.QuarantineStartDate,GETDATE()) as NumberOfDaysQuarantine\n"
+                    + "	from F1F2Management f join Resident r on f.ID=r.ID\n"
+                    + "	join Vaccination v on v.ID=f.ID\n"
+                    + "	join Apartment a on a.ApartmentID=r.ApartmentID\n"
+                    + "	join Building b on a.BuildID=b.BuildID  \n"
+                    + "	where (1=1) ";
+
+            HashMap<Integer, Object[]> params = new HashMap<>();
+            int paramIndex = 0;
+
+            if (id != -1) {
+                sql += "AND f.ID = ? ";
+                paramIndex++;
+                Object[] param = new Object[2];
+                param[0] = Integer.class.getTypeName();
+                param[1] = id;
+                params.put(paramIndex, param);
+            }
+            if (buildID != -1) {
+                sql += "AND b.BuildID = ? ";
+                paramIndex++;
+                Object[] param = new Object[2];
+                param[0] = Integer.class.getTypeName();
+                param[1] = buildID;
+                params.put(paramIndex, param);
+            }
+            if (!apartmentID.equals("")) {
+                sql += "AND r.[ApartmentID] = ? ";
+                paramIndex++;
+                Object[] param = new Object[2];
+                param[0] = String.class.getTypeName();
+                param[1] = apartmentID;
+                params.put(paramIndex, param);
+            }
+
+            if (fullName != null) {
+                sql += "AND r.[FullName] like '%' + ? + '%' ";
+                paramIndex++;
+                Object[] param = new Object[2];
+                param[0] = String.class.getTypeName();
+                param[1] = fullName;
+                params.put(paramIndex, param);
+            }
+            if (phone != -1) {
+                sql += "AND r.[Phone] = ? ";
+                paramIndex++;
+                Object[] param = new Object[2];
+                param[0] = Integer.class.getTypeName();
+                param[1] = phone;
+                params.put(paramIndex, param);
+            }
+            if (firstInjection != null) {
+                sql += "AND v.[1 injection] = ? ";
+                paramIndex++;
+                Object[] param = new Object[2];
+                param[0] = Boolean.class.getTypeName();
+                param[1] = firstInjection;
+                params.put(paramIndex, param);
+            }
+            if (secondInjection != null) {
+                sql += "AND v.[2 injection] = ? ";
+                paramIndex++;
+                Object[] param = new Object[2];
+                param[0] = Boolean.class.getTypeName();
+                param[1] = secondInjection;
+                params.put(paramIndex, param);
+            }
+            if (from != null) {
+                sql += "AND f.QuarantineStartDate >= ? ";
+                paramIndex++;
+                Object[] param = new Object[2];
+                param[0] = Date.class.getTypeName();
+                param[1] = from;
+                params.put(paramIndex, param);
+            }
+            String results = "select rownum,ID,FullName,ApartmentID,BuildID,Name,Phone\n"
+                    + "				,[1 injection],[1injectionDate],[2 injection],[2injectionDate],QuarantineStartDate\n"
+                    + "				,NumberOfDaysQuarantine  \n"
+                    + "				from"
+                    + "(" + sql + ") t where rownum >= (?-1)*10+1 and rownum <= ?*10 ";
+            PreparedStatement stm = connection.prepareStatement(results);
+            stm.setInt(paramIndex +1, pageindex);
+            stm.setInt(paramIndex+2, pageindex);
+
+            for (Map.Entry<Integer, Object[]> entry : params.entrySet()) {
+                Integer index = entry.getKey();
+                Object[] value = entry.getValue();
+                String type = value[0].toString();
+                if (type.equals(Integer.class.getName())) {
+                    stm.setInt(index, Integer.parseInt(value[1].toString()));
+                } else if (type.equals(String.class.getName())) {
+                    stm.setString(index, value[1].toString());
+                } else if (type.equals(Date.class.getName())) {
+                    stm.setDate(index, (Date) value[1]);
+                } else if (type.equals(Boolean.class.getName())) {
+                    stm.setBoolean(index, (Boolean) value[1]);
+                }
+            }
+            ResultSet rs = stm.executeQuery();
+            while (rs.next()) {
+                F1F2 f = new F1F2();
+                f.setID(rs.getInt("ID"));
+                Resident r = new Resident();
+                r.setID(rs.getInt("ID"));
+                Apartment a = new Apartment();
+                a.setApartmentID(rs.getString("ApartmentID"));
+                r.setApartment(a);
+                Building b = new Building();
+                b.setBuildID(rs.getInt("BuildID"));
+                b.setName(rs.getString("Name"));
+                r.setBuilding(b);
+                r.setFullName(rs.getString("FullName"));
+                r.setPhone(rs.getInt("Phone"));
+                Vaccination v = new Vaccination();
+                v.setFirstInjection(rs.getBoolean("1 injection"));
+                v.setFirstInjectionDate(rs.getDate("1injectionDate"));
+                v.setSecondInjection(rs.getBoolean("2 injection"));
+                v.setSecondInjectionDate(rs.getDate("2injectionDate"));
+                r.setVaccine(v);
+                f.setResident(r);
+                f.setQuarantineStartDate(rs.getDate("QuarantineStartDate"));
+                f.setNumberOfDays(rs.getInt("NumberOfDaysQuarantine"));
+                f1f2.add(f);
+
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(ResidentDBContext.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return f1f2;
+    }
 }

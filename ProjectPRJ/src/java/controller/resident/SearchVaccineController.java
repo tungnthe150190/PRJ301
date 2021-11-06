@@ -39,6 +39,11 @@ public class SearchVaccineController extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+           String raw_page = request.getParameter("page");
+        if (raw_page == null || raw_page.length() == 0) {
+            raw_page = "1";
+        }
+        int page = Integer.parseInt(raw_page);
         ApartmentDBContext adb = new ApartmentDBContext();
         BuildingDBContext bdb = new BuildingDBContext();
         ArrayList<Apartment> aparts = adb.getAparts();
@@ -82,7 +87,7 @@ public class SearchVaccineController extends HttpServlet {
             id = Integer.parseInt(raw_id);           
             buildID = Integer.parseInt(raw_buildID);
         } catch (NumberFormatException e) {
-            response.getWriter().println("Not found resident !");
+            response.getWriter().println("Input invalid !");
             return;
         }
         Date from = (raw_from != null && raw_from.length() > 0) ? Date.valueOf(raw_from) : null;
@@ -99,11 +104,13 @@ public class SearchVaccineController extends HttpServlet {
             response.getWriter().println("Not found resident !");
             return;
         }
-       
+       int count=vaccines.size();
+       int totalpage = (count % 20 == 0) ? count / 20 : (count / 20) + 1;
+         ArrayList<Resident> results=vdb.searchWithPagging(page, id, buildID, raw_apartmentID, raw_name, from, to, raw_homeTown, firstInjection, firstfrom, firstto, secondInjection, secondfrom, secondto);
         
-        
-       
-        request.setAttribute("vaccines", vaccines);
+       request.setAttribute("totalpage", totalpage);
+        request.setAttribute("pageindex", page);
+        request.setAttribute("results", results);
         request.setAttribute("aparts", aparts);
         request.setAttribute("buildings", buildings);
         request.setAttribute("id", id == -1 ? "" : id);      
