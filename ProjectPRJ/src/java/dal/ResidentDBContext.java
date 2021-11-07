@@ -28,7 +28,7 @@ public class ResidentDBContext extends DBContext {
     public ArrayList<Resident> getResidentsWithPagging(int pagesize, int pageindex) {
         ArrayList<Resident> residents = new ArrayList<>();
         try {
-            String sql = "			 select [ID],[ApartmentID],BuildID,Name,[FullName],[DateOfBirth],[HomeTown],[Phone] from \n"
+            String sql = "			 select [ID],[ApartmentID],BuildID,Name,[FullName],[DateOfBirth],[HomeTown],[Phone],[IsF1F2] from \n"
                     + "                   (select rownum=ROW_NUMBER() OVER (Order by a.[ApartmentID] ASC),\n"
                     + "                    				 [ID]\n"
                     + "                                           ,a.[ApartmentID]\n"
@@ -37,7 +37,7 @@ public class ResidentDBContext extends DBContext {
                     + "                                            ,[FullName]\n"
                     + "                                            ,[DateOfBirth]\n"
                     + "                                          ,[HomeTown]\n"
-                    + "                                        ,[Phone] from [Resident] r\n"
+                    + "                                        ,[Phone],[IsF1F2] from [Resident] r\n"
                     + "                                         inner join Apartment a on r.ApartmentID=a.ApartmentID\n"
                     + "                                        inner join Building b on a.BuildID=b.BuildID) t\n"
                     + "                   where\n"
@@ -62,6 +62,7 @@ public class ResidentDBContext extends DBContext {
                 r.setDob(rs.getDate("DateOfBirth"));
                 r.setHomeTown(rs.getString("HomeTown"));
                 r.setPhone(rs.getInt("Phone"));
+               r.setIsF1F2(rs.getBoolean("IsF1F2"));
                 residents.add(r);
             }
         } catch (SQLException ex) {
@@ -260,7 +261,7 @@ public class ResidentDBContext extends DBContext {
                     + "                    ,[1 injection]\n"
                     + "			   ,[1injectionDate]\n"
                     + "                    ,[2 injection]\n"
-                    + "			   ,[2injectionDate]\n"
+                    + "			   ,[2injectionDate],[IsF1F2]\n"
                     + "                    FROM [Resident] r\n"
                     + "                    inner join [Vaccination] v on r.ID=v.ID\n"
                     + "                    inner join Apartment a on a.ApartmentID=r.ApartmentID\n"
@@ -383,6 +384,7 @@ public class ResidentDBContext extends DBContext {
                 r.setDob(rs.getDate("DateOfBirth"));
                 r.setHomeTown(rs.getString("HomeTown"));
                 r.setPhone(rs.getInt("Phone"));
+                r.setIsF1F2(rs.getBoolean("IsF1F2"));
                 Vaccination v = new Vaccination();
                 v.setFirstInjection(rs.getBoolean("1 injection"));
                 v.setFirstInjectionDate(rs.getDate("1injectionDate"));
@@ -514,7 +516,7 @@ public class ResidentDBContext extends DBContext {
                     + " ,[1 injection]\n"
                     + " ,[1injectionDate]\n"
                     + "   ,[2 injection]\n"
-                    + "  ,[2injectionDate]\n"
+                    + "  ,[2injectionDate],[IsF1F2]\n"
                     + "   FROM [Resident] r\n"
                     + "  inner join [Vaccination] v on r.ID=v.ID\n"
                     + "  inner join Apartment a on a.ApartmentID=r.ApartmentID\n"
@@ -614,7 +616,7 @@ public class ResidentDBContext extends DBContext {
                     + "  ,[1 injection]\n"
                     + "  ,[1injectionDate]\n"
                     + "  ,[2 injection]\n"
-                    + "   ,[2injectionDate] from "
+                    + "   ,[2injectionDate],[IsF1F2] from "
                     + "(" + sql + ") t where rownum >= (?-1)*20+1 and rownum <= ?*20 ";
 
             PreparedStatement stm = connection.prepareStatement(results);
@@ -650,6 +652,7 @@ public class ResidentDBContext extends DBContext {
                 r.setDob(rs.getDate("DateOfBirth"));
                 r.setHomeTown(rs.getString("HomeTown"));
                 r.setPhone(rs.getInt("Phone"));
+                r.setIsF1F2(rs.getBoolean("IsF1F2"));
                 Vaccination v = new Vaccination();
                 v.setFirstInjection(rs.getBoolean("1 injection"));
                 v.setFirstInjectionDate(rs.getDate("1injectionDate"));

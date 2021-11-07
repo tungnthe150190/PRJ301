@@ -41,6 +41,7 @@
                 <th>DateOfBirth</th>  
                 <th>Home Town</th> 
                 <th>Phone</th>
+                <th>Is F1/F2</th>
                 <td></td>
                 <td></td>
             </tr>
@@ -53,6 +54,7 @@
                     <td>${r.dob}</td>
                     <td>${r.homeTown}</td>
                     <td>${r.phone}</td>
+                    <td>${r.isF1F2?"Yes":"No"}</td>
                     <td>
                         <input type="button" onclick="doUpdate(${r.ID});" value="Update"/>
                     </td>

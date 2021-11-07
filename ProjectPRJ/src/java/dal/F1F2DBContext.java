@@ -129,6 +129,7 @@ public class F1F2DBContext extends DBContext {
 
     public void insertF1F2(F1F2 f1f2) {
         try {
+            connection.setAutoCommit(false);
             String sql = "INSERT INTO [F1F2Management]\n"
                     + "           ([ID]\n"
                     + "           ,[QuarantineStartDate])\n"
@@ -139,10 +140,26 @@ public class F1F2DBContext extends DBContext {
             stm.setInt(1, f1f2.getID());
             stm.setDate(2, f1f2.getQuarantineStartDate());
             stm.executeUpdate();
+              String sql_update="Update Resident set IsF1F2=1 where ID=?";
+            PreparedStatement stm_update=connection.prepareStatement(sql_update);
+            stm_update.setInt(1, f1f2.getID());
+            stm_update.executeUpdate();
+            connection.commit();
+            
         } catch (SQLException ex) {
             Logger.getLogger(F1F2DBContext.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
+            try {
+                connection.rollback();
+            } catch (SQLException ex1) {
+                Logger.getLogger(F1F2DBContext.class.getName()).log(Level.SEVERE, null, ex1);
+            }
+        }finally {
+            try {
+                connection.setAutoCommit(true);
+            } catch (SQLException ex) {
+                Logger.getLogger(F1F2DBContext.class.getName()).log(Level.SEVERE, null, ex);
+            }
+    }}
 
     public void update(F1F2 f1f2) {
         try {
@@ -154,6 +171,8 @@ public class F1F2DBContext extends DBContext {
             stm.setDate(1, f1f2.getQuarantineStartDate());
             stm.setInt(2, f1f2.getID());
             stm.executeUpdate();
+            
+          
         } catch (SQLException ex) {
             Logger.getLogger(F1F2DBContext.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -202,14 +221,34 @@ public class F1F2DBContext extends DBContext {
 
     public void delete(int id) {
         try {
+            connection.setAutoCommit(false);
+            String sql="Update Resident set IsF1F2=0 where ID=?";
+           PreparedStatement stm=connection.prepareStatement(sql);
+           stm.setInt(1, id);
+           stm.executeUpdate();
+            
             String sql_delete_f1f2 = "Delete from F1F2Management where ID=?";
             PreparedStatement stm_delete_f1f2 = connection.prepareStatement(sql_delete_f1f2);
             stm_delete_f1f2.setInt(1, id);
             stm_delete_f1f2.executeUpdate();
+            
+           
+           
+           connection.commit();
         } catch (SQLException ex) {
             Logger.getLogger(F1F2DBContext.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
+            try {
+                connection.rollback();
+            } catch (SQLException ex1) {
+                Logger.getLogger(F1F2DBContext.class.getName()).log(Level.SEVERE, null, ex1);
+            }
+        }finally {
+            try {
+                connection.setAutoCommit(true);
+            } catch (SQLException ex) {
+                Logger.getLogger(F1F2DBContext.class.getName()).log(Level.SEVERE, null, ex);
+            }
+    }}
 
     public ArrayList<F1F2> search(int id, int buildID, String apartmentID, String fullName, int phone, Boolean firstInjection, Boolean secondInjection, Date from) {
         ArrayList<F1F2> f1f2 = new ArrayList<>();

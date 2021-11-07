@@ -14,6 +14,19 @@
         <link href="../css/loginstyle.css" rel="stylesheet" type="text/css"/>
         <script src="../js/pagger.js" type="text/javascript"></script>
         <link href="../css/pagger.css" rel="stylesheet" type="text/css"/>
+        <script>
+            function doUpdate(id) {
+                window.location.href = "updatef1f2?id=" + id;
+            }
+            function doDelete(id)
+            {
+                var c = confirm("Are you sure?");
+                if (c)
+                {
+                    window.location.href = "deletef1f2?id=" + id;
+                }
+            }
+        </script>
     </head>
     <body>
     <body>
@@ -115,7 +128,9 @@
                     <th>QuarantineStartDate</th>
                     <th>NumberOfDaysQuarantine</th>
                     <th>1st Injection</th>               
-                    <th>2nd Injection</th> 
+                    <th>2nd Injection</th>
+                    <td></td>
+                    <td></td>
 
 
 
@@ -131,6 +146,10 @@
                         <td>${f.numberOfDays}</td>
                         <td>${f.resident.vaccine.firstInjection?"Yes":"No"}</td>                   
                         <td>${f.resident.vaccine.secondInjection?"Yes":"No"}</td>
+                        <td> <input type="button" onclick="doUpdate(${f.ID});" value="Update"/></td>
+                    <td>
+                    <input type="button" onclick="doDelete(${f.ID});" value="Delete"/>
+                </td>
 
                     </tr>
                 </c:forEach>

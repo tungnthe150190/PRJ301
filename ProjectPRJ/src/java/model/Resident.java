@@ -20,7 +20,8 @@ public class Resident {
     private Date dob;
     private String homeTown;
     private int phone;
-    private Vaccination vaccine;
+    private boolean isF1F2;
+    private Vaccination vaccine;   
     private F1F2 f1f2;
 
     public Resident() {
@@ -107,6 +108,14 @@ public class Resident {
 
     public void setPhone(int phone) {
         this.phone = phone;
+    }
+
+    public boolean isIsF1F2() {
+        return isF1F2;
+    }
+
+    public void setIsF1F2(boolean isF1F2) {
+        this.isF1F2 = isF1F2;
     }
 
 }

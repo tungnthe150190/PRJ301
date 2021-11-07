@@ -14,13 +14,22 @@
         <link href="../css/loginstyle.css" rel="stylesheet" type="text/css"/>
         <script src="../js/pagger.js" type="text/javascript"></script>
         <link href="../css/pagger.css" rel="stylesheet" type="text/css"/>
+        <script>
+            function doUpdate(id)
+            {
+                
+                 window.location.href = "updateresident?id="+id;
+             
+            }
+           
+        </script>
     </head>
     <body>
         <div class="container">
             <div class="login-form">
-                 <a href="../view/menu/menu.jsp"><button>HOME</button></a><br/> <br/>
+                <a href="../view/menu/menu.jsp"><button>HOME</button></a><br/> <br/>
                 <form action="searchvaccine">
-                    
+
                     <h1>Search Vaccine</h1>
                     <div class="input-box">
                         <i ></i>
@@ -110,10 +119,10 @@
                         </button>
                     </div>
                 </form>
-                    <a id="insert" href="../resident/insertf1f2"><button>Insert F1/F2</button></a><br/> 
+                <a id="insert" href="../resident/insertf1f2"><button>Insert F1/F2</button></a><br/> 
             </div>
-                    <div id="paggerTop" class="pagger"></div>
-                    <table border="1" >
+            <div id="paggerTop" class="pagger"></div>
+            <table border="1" >
                 <tr align="center" valign="middle" height="30px">
                     <th>ID</th>
                     <th>Apartment</th>
@@ -126,6 +135,7 @@
                     <th>1st Injection Date</th> 
                     <th>2nd Injection</th> 
                     <th>2st Injection Date</th> 
+                    <td></td>
                 </tr>
                 <c:forEach items="${requestScope.results}" var="r">
                     <tr align="center" valign="middle" height="30px">
@@ -140,15 +150,18 @@
                         <th>${r.vaccine.firstInjectionDate}</th>
                         <th>${r.vaccine.secondInjection?"Yes":"No"}</th>
                         <th>${r.vaccine.secondInjectionDate}</th>
+                        <td>
+                            <input type="button" onclick="doUpdate(${r.ID});" value="Update"/>
+                        </td>
                     </tr>
                 </c:forEach>
             </table>
-                    <div id="paggerBottom" class="pagger"></div>
-<script>
-            createSearchPagger('paggerTop',${requestScope.pageindex}, 2,${requestScope.totalpage}, "searchvaccine","&id=${requestScope.id}&buildID=${requestScope.buildID}&apartmentID=${requestScope.apartmentID}&firstInjection=${requestScope.firstInjection}&firstfrom=${requestScope.firstfrom}&firstto=${requestScope.firstto}&secondInjection=${requestScope.secondInjection}&secondfrom=${requestScope.secondfrom}&secondto=${requestScope.secondto}&name=${requestScope.fullName}&from=${requestScope.from}&to=${requestScope.to}&homeTown=${requestScope.homeTown}");
-            createSearchPagger('paggerBottom',${requestScope.pageindex}, 2,${requestScope.totalpage}, "searchvaccine","&id=${requestScope.id}&buildID=${requestScope.buildID}&apartmentID=${requestScope.apartmentID}&firstInjection=${requestScope.firstInjection}&firstfrom=${requestScope.firstfrom}&firstto=${requestScope.firstto}&secondInjection=${requestScope.secondInjection}&secondfrom=${requestScope.secondfrom}&secondto=${requestScope.secondto}&name=${requestScope.fullName}&from=${requestScope.from}&to=${requestScope.to}&homeTown=${requestScope.homeTown}");
-            
-        </script>
+            <div id="paggerBottom" class="pagger"></div>
+            <script>
+    createSearchPagger('paggerTop',${requestScope.pageindex}, 2,${requestScope.totalpage}, "searchvaccine", "&id=${requestScope.id}&buildID=${requestScope.buildID}&apartmentID=${requestScope.apartmentID}&firstInjection=${requestScope.firstInjection}&firstfrom=${requestScope.firstfrom}&firstto=${requestScope.firstto}&secondInjection=${requestScope.secondInjection}&secondfrom=${requestScope.secondfrom}&secondto=${requestScope.secondto}&name=${requestScope.fullName}&from=${requestScope.from}&to=${requestScope.to}&homeTown=${requestScope.homeTown}");
+    createSearchPagger('paggerBottom',${requestScope.pageindex}, 2,${requestScope.totalpage}, "searchvaccine", "&id=${requestScope.id}&buildID=${requestScope.buildID}&apartmentID=${requestScope.apartmentID}&firstInjection=${requestScope.firstInjection}&firstfrom=${requestScope.firstfrom}&firstto=${requestScope.firstto}&secondInjection=${requestScope.secondInjection}&secondfrom=${requestScope.secondfrom}&secondto=${requestScope.secondto}&name=${requestScope.fullName}&from=${requestScope.from}&to=${requestScope.to}&homeTown=${requestScope.homeTown}");
+
+            </script>
         </div>     
     </body>
 </html>
