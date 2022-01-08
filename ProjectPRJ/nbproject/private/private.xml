@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project-private xmlns="http://www.netbeans.org/ns/project-private/1">
+    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
+    <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
+        <group>
+            <file>file:/C:/Users/Admin/Desktop/Learn/ProjectPRJ/PRJ301/ProjectPRJ/web/view/list/resident.jsp</file>
+            <file>file:/C:/Users/Admin/Desktop/Learn/ProjectPRJ/PRJ301/ProjectPRJ/web/view/search/searchvaccine.jsp</file>
+            <file>file:/C:/Users/Admin/Desktop/Learn/ProjectPRJ/PRJ301/ProjectPRJ/src/java/model/Resident.java</file>
+            <file>file:/C:/Users/Admin/Desktop/Learn/ProjectPRJ/PRJ301/ProjectPRJ/web/view/search/searchf1f2.jsp</file>
+            <file>file:/C:/Users/Admin/Desktop/Learn/ProjectPRJ/PRJ301/ProjectPRJ/web/view/list/F1F2.jsp</file>
+            <file>file:/C:/Users/Admin/Desktop/Learn/ProjectPRJ/PRJ301/ProjectPRJ/src/java/controller/resident/ListResidentController.java</file>
+            <file>file:/C:/Users/Admin/Desktop/Learn/ProjectPRJ/PRJ301/ProjectPRJ/web/view/search/searchresident.jsp</file>
+            <file>file:/C:/Users/Admin/Desktop/Learn/ProjectPRJ/PRJ301/ProjectPRJ/src/java/dal/ResidentDBContext.java</file>
+            <file>file:/C:/Users/Admin/Desktop/Learn/ProjectPRJ/PRJ301/ProjectPRJ/src/java/dal/F1F2DBContext.java</file>
+            <file>file:/C:/Users/Admin/Desktop/Learn/ProjectPRJ/PRJ301/ProjectPRJ/web/view/list/vaccine.jsp</file>
+            <file>file:/C:/Users/Admin/Desktop/Learn/ProjectPRJ/PRJ301/ProjectPRJ/src/java/controller/resident/SearchVaccineController.java</file>
+        </group>
+    </open-files>
+</project-private>
